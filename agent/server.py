@@ -10,7 +10,7 @@ import os
 import zipfile
 from fastapi import FastAPI, HTTPException, BackgroundTasks, Header
 from pydantic import BaseModel
-from agent.types import TaskResponse
+from agent.schema import TaskResponse
 from agent.services.auditor import Audit, SolidityAuditor
 from agent.config import Settings
 import shutil
