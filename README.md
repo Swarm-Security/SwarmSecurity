@@ -1,4 +1,4 @@
-# SwarmSecurity - Collective Security  
+# SwarmSecurity - Solidity Security Audit Agent 
 
 ## Quick Start
 
@@ -42,7 +42,6 @@
    ```
 
 ---
-<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/77b2bb7b-6c2d-4314-b287-2b1ca19ee3e9" />
 
 ## Project Summary
 
