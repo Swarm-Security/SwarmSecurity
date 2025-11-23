@@ -12,6 +12,7 @@ from fastapi import FastAPI, HTTPException, BackgroundTasks, Header
 from pydantic import BaseModel
 from agent.schema import TaskResponse
 from agent.services.auditor import Audit, SolidityAuditor
+from agent.models.solidity_file import SolidityFile
 from agent.config import Settings
 import shutil
 
@@ -69,9 +70,24 @@ async def send_audit_results(callback_url: str, task_id: str, audit: Audit):
         audit: Audit results
     """
     try:
+        severity_map = {
+            "Critical": "High",
+            "High": "High",
+            "Medium": "Medium",
+            "Low": "Low",
+            "Info": "Info",
+            "Informational": "Info"
+        }
+
         async with httpx.AsyncClient(timeout=600.0) as client:
-            # Convert Pydantic models to dict first
-            findings_dict = [finding.model_dump() for finding in audit.findings]
+            # Convert Pydantic models to dict first and normalize severity to AgentArena enum
+            findings_dict = []
+            for finding in audit.findings:
+                finding_dict = finding.model_dump()
+                sev = finding_dict.get("severity", "High")
+                finding_dict["severity"] = severity_map.get(sev, "High")
+                findings_dict.append(finding_dict)
+
             payload = {"task_id": task_id, "findings": findings_dict}
             
             # Log detailed payload information for debugging
@@ -207,39 +223,65 @@ async def setup_repository(repo_url: str, task_id: str, config: Settings) -> Opt
             except Exception as cleanup_error:
                 logger.error(f"Error cleaning up temporary directory {temp_dir}: {str(cleanup_error)}")
 
-def read_and_concatenate_files(repo_dir: str, selected_files: list) -> str:
+def read_selected_files(repo_dir: str, selected_files: list) -> list:
     """
-    Read and concatenate content of selected files from the repository.
-    
-    Args:
-        repo_dir: Path to the repository directory
-        selected_files: List of file paths to read
-        
-    Returns:
-        String with all files concatenated with headers
+    Load selected files into SolidityFile objects for the auditor.
     """
-    concatenated = ""
+    loaded_files = []
+
+    if not selected_files:
+        logger.warning("No selected files provided to read_selected_files.")
+        return loaded_files
     
     try:
         for file_path in selected_files:
             full_path = os.path.join(repo_dir, file_path)
-            print(f"Reading file: {full_path}")
+            logger.info(f"Reading file: {full_path}")
             if os.path.isfile(full_path):
                 try:
                     with open(full_path, 'r', encoding='utf-8') as f:
                         file_content = f.read()
-                        concatenated += f"// {file_path}\n{file_content}\n\n"
                 except UnicodeDecodeError:
-                    # Try with different encoding if utf-8 fails
                     with open(full_path, 'r', encoding='latin-1') as f:
                         file_content = f.read()
-                        concatenated += f"// {file_path}\n{file_content}\n\n"
+
+                loaded_files.append(SolidityFile(path=file_path, content=file_content))
             else:
                 logger.warning(f"Selected file not found: {file_path}")
         
+        logger.info(f"Loaded {len(loaded_files)} files for auditing.")
+        return loaded_files
+    except Exception as e:
+        logger.error(f"Error reading selected files: {str(e)}", exc_info=True)
+        return []
+
+
+def concatenate_docs(repo_dir: str, selected_docs: list) -> str:
+    """
+    Read and concatenate selected documentation files (if any).
+    """
+    concatenated = ""
+
+    if not selected_docs:
+        return concatenated
+
+    try:
+        for file_path in selected_docs:
+            full_path = os.path.join(repo_dir, file_path)
+            logger.info(f"Reading doc: {full_path}")
+            if os.path.isfile(full_path):
+                try:
+                    with open(full_path, 'r', encoding='utf-8') as f:
+                        file_content = f.read()
+                except UnicodeDecodeError:
+                    with open(full_path, 'r', encoding='latin-1') as f:
+                        file_content = f.read()
+                concatenated += f"// {file_path}\n{file_content}\n\n"
+            else:
+                logger.warning(f"Selected doc not found: {file_path}")
         return concatenated
     except Exception as e:
-        logger.error(f"Error reading and concatenating files: {str(e)}", exc_info=True)
+        logger.error(f"Error reading docs: {str(e)}", exc_info=True)
         return ""
 
 async def process_notification(notification: Notification, config: Settings):
@@ -250,6 +292,7 @@ async def process_notification(notification: Notification, config: Settings):
         notification: Notification payload
         config: Application configuration
     """
+    repo_dir = None
     try:
         logger.info(f"Processing notification for task {notification.task_id}")
         logger.info(f"Notification: {notification}")
@@ -274,22 +317,22 @@ async def process_notification(notification: Notification, config: Settings):
             logger.error(f"Failed to download repository for task {notification.task_id}")
             return
         
-        # Read and concatenate selected files
-        concatenated_contracts = read_and_concatenate_files(repo_dir, task_details.selectedFiles)
-        if not concatenated_contracts:
-            logger.warning(f"No valid contracts content found for task {notification.task_id}")
+        # Load selected files as SolidityFile objects
+        contracts = read_selected_files(repo_dir, task_details.selectedFiles)
+        if not contracts:
+            logger.warning(f"No valid contracts loaded for task {notification.task_id}")
             return
         
         # Read and concatenate selected docs
-        concatenated_docs = read_and_concatenate_files(repo_dir, task_details.selectedDocs)
+        concatenated_docs = concatenate_docs(repo_dir, task_details.selectedDocs)
         if not concatenated_docs:
             logger.info(f"No valid docs content found for task {notification.task_id}")
             # Continue anyway as docs are optional
         
         # Audit files
         auditor = SolidityAuditor(config.openai_api_key, config.openai_model)
-        audit = auditor.audit_files(concatenated_contracts, concatenated_docs, task_details.additionalLinks, task_details.additionalDocs, task_details.qaResponses)
-        
+        audit = auditor.audit_files(contracts, concatenated_docs, task_details.additionalLinks, task_details.additionalDocs, task_details.qaResponses)
+
         # Send results back
         await send_audit_results(notification.post_findings_url, notification.task_id, audit)
         
@@ -297,7 +340,7 @@ async def process_notification(notification: Notification, config: Settings):
         logger.error(f"Error processing notification: {str(e)}", exc_info=True)
     finally:
         # Clean up the repository directory
-        if os.path.exists(repo_dir):
+        if repo_dir and os.path.exists(repo_dir):
             try:
                 shutil.rmtree(repo_dir)
                 logger.info(f"Repository directory {repo_dir} cleaned up")

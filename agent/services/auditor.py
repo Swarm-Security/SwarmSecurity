@@ -51,11 +51,14 @@ class SolidityAuditor:
         """
         try:
             logger.info("🚀 RedSpectre Swarm Activated")
+            logger.info(f"Received contracts payload type={type(contracts)}")
             verified_findings = []
 
             # In the template, 'contracts' is passed as a List[SolidityFile] object in local.py
             # But sometimes as a string in other contexts. We handle the list case here.
             files_to_audit = contracts if isinstance(contracts, list) else []
+            if not files_to_audit:
+                logger.warning("No contracts supplied to audit_files; skipping swarm analysis.")
             
             # 1. The Swarm Analysis Loop
             for file_obj in files_to_audit:
@@ -65,6 +68,7 @@ class SolidityAuditor:
                 # Call the Swarm
                 # We pass the content and filename to the swarm logic
                 swarm_results = self.swarm.analyze_file(file_obj.content, file_obj.path)
+                logger.debug(f"Raw swarm results for {file_obj.path}: {swarm_results}")
                 
                 for res in swarm_results:
                     # Map RedSpectre result to AgentArena Finding Model
@@ -83,8 +87,29 @@ class SolidityAuditor:
                     ))
 
             deduped = deduplicate_findings(verified_findings)
-            logger.info(f"✅ Audit completed with {len(deduped)} deduplicated findings (raw: {len(verified_findings)})")
-            return Audit(findings=deduped)
+            severity_order = {
+                "Critical": 4,
+                "High": 3,
+                "Medium": 2,
+                "Low": 1,
+                "Informational": 0,
+                "Info": 0,
+            }
+            sorted_findings = sorted(
+                deduped,
+                key=lambda f: severity_order.get(f.severity, 0),
+                reverse=True
+            )
+            limited = sorted_findings[:20]
+            if len(deduped) > 20:
+                logger.info(f"Limiting findings to top 20 by severity (from {len(deduped)})")
+
+            logger.info(f"✅ Audit completed with {len(limited)} returned findings (deduped raw: {len(deduped)}, initial: {len(verified_findings)})")
+            # Explicit print to stdout for quick debugging when running the server
+            # print(f"[Audit Debug] Verified findings (pre-dedup): {verified_findings}")
+            # print(f"[Audit Debug] Deduped findings: {deduped}")
+            # print(f"[Audit Debug] Limited (top 20): {limited}")
+            return Audit(findings=limited)
 
         except Exception as e:
             logger.error(f"Error during RedSpectre audit: {str(e)}", exc_info=True)
