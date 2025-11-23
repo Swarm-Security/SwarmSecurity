@@ -33,7 +33,7 @@ class Swarm:
     def __init__(
         self,
         api_key: str = None,
-        model: str = "gpt-5",
+        model: str = "gpt-4-turbo",
         cache_enabled: bool = False,
         persona_models: Optional[Dict[str, str]] = None,
         routing_enabled: bool = True,
@@ -41,12 +41,12 @@ class Swarm:
         # The Council of Agents
         # Add new personas here as you build them
         # Normalize model choice to avoid weaker defaults like gpt-4o-mini.
-        normalized_model = model or "gpt-5"
+        normalized_model = model or "gpt-4-turbo"
         if normalized_model.lower() in {"gpt-4o-mini", "gpt-4o-mini-2024-07-18"}:
-            normalized_model = "gpt-5"
+            normalized_model = "gpt-4-turbo"
 
         self.persona_models = {
-            k: ("gpt-5" if v and v.lower().startswith("gpt-4o-mini") else v)
+            k: ("gpt-4-turbo" if v and v.lower().startswith("gpt-4o-mini") else v)
             for k, v in (persona_models or {}).items()
         }
 
@@ -267,7 +267,7 @@ class Swarm:
                 logger.exception("Agent %s failed during hunt on %s", agent.name, filename)
                 return agent, {}
 
-        max_workers = min(len(selected_agents) or 1, 4)
+        max_workers = min(len(selected_agents) or 1, 8)
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
             for agent, analysis in executor.map(_run_agent, selected_agents):
                 if persona_outputs is not None:

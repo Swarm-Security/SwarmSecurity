@@ -76,11 +76,11 @@ class Audit(BaseModel):
 class SolidityAuditor:
     """Service for auditing Solidity contracts using RedSpectre Swarm."""
     
-    def __init__(self, api_key: str, model: str = "gpt-5"):
+    def __init__(self, api_key: str, model: str = "gpt-4-turbo"):
         """
         Initialize the auditor with OpenAI credentials.
         """
-        self.model = "gpt-5" if (not model or model.lower().startswith("gpt-4o-mini")) else model
+        self.model = "gpt-4-turbo" if (not model or model.lower().startswith("gpt-4o-mini")) else model
         self.client = OpenAI(api_key=api_key)
         
         # Initialize RedSpectre Components
