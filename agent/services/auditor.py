@@ -104,7 +104,7 @@ class SolidityAuditor:
             logger.warning("Fallback AUDIT_PROMPT failed: %s", e, exc_info=True)
             return []
 
-    def audit_files(self, contracts: List[object], docs: str = "", additional_links: List[str] = None, additional_docs: str = None, qa_responses: List = None, benchmark_mode: bool = False) -> Audit:
+    def audit_files(self, contracts: List[object], docs: str = "", additional_links: List[str] = None, additional_docs: str = None, qa_responses: List = None, benchmark_mode: bool = True) -> Audit:
         """
         RedSpectre Implementation:
         1. Takes the list of SolidityFile objects (from local.py/server.py)

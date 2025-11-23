@@ -7,7 +7,6 @@ import copy
 from typing import List, Dict, Any, Set, Type, Optional
 from .personas.access_control_expert import AccessControlExpert
 from .personas.arithmetic_expert import ArithmeticExpert
-from .personas.centralization_expert import CentralizationExpert
 from .personas.defi_analyst import DeFiAnalyst
 from .personas.dos_expert import DoSExpert
 from .personas.economic_expert import EconomicExpert
@@ -22,7 +21,6 @@ from .personas.oracle_expert import OracleExpert
 from .personas.reentrancy_expert import ReentrancyExpert
 from .personas.signature_expert import SignatureExpert
 from .personas.storage_proxy_expert import StorageProxyExpert
-from .personas.thief import Thief
 from .personas.timestamp_expert import TimestampExpert
 from .personas.token_expert import TokenExpert
 from .personas.routing_analyst import RoutingAnalyst
@@ -47,10 +45,8 @@ class Swarm:
             return self.persona_models.get(cls.__name__, model)
 
         self.agents = [
-            Thief(api_key=api_key, model=_select_model(Thief)),
             AccessControlExpert(api_key=api_key, model=_select_model(AccessControlExpert)),
             ArithmeticExpert(api_key=api_key, model=_select_model(ArithmeticExpert)),
-            CentralizationExpert(api_key=api_key, model=_select_model(CentralizationExpert)),
             DeFiAnalyst(api_key=api_key, model=_select_model(DeFiAnalyst)),
             DoSExpert(api_key=api_key, model=_select_model(DoSExpert)),
             EconomicExpert(api_key=api_key, model=_select_model(EconomicExpert)),
@@ -71,10 +67,8 @@ class Swarm:
         ]
         self._agent_by_type = {type(agent): agent for agent in self.agents}
         self._persona_name_to_type: Dict[str, Type] = {
-            "Thief": Thief,
             "AccessControlExpert": AccessControlExpert,
             "ArithmeticExpert": ArithmeticExpert,
-            "CentralizationExpert": CentralizationExpert,
             "DeFiAnalyst": DeFiAnalyst,
             "DoSExpert": DoSExpert,
             "EconomicExpert": EconomicExpert,
@@ -118,7 +112,6 @@ class Swarm:
             return any(s in code_lower for s in substrings)
 
         always_on: Set[Type] = {
-            Thief,
             AccessControlExpert,
             ReentrancyExpert,
             LogicExpert,
@@ -205,9 +198,9 @@ class Swarm:
         )
         return selected
 
-    def _code_snippet(self, source_code: str, line_number: int, context: int = 12) -> str:
+    def _code_snippet(self, source_code: str, line_number: int, window: int = 10) -> str:
         """
-        Returns a small, line-numbered snippet around the reported line for triage.
+        Returns a small, line-numbered snippet (max `window` lines) centered on the reported line.
         """
         if not line_number or line_number < 1:
             return ""
@@ -215,8 +208,9 @@ class Swarm:
         idx = line_number - 1
         if idx >= len(lines):
             return ""
-        start = max(0, idx - context)
-        end = min(len(lines), idx + context + 1)
+        half = max(1, window // 2)
+        start = max(0, idx - half)
+        end = min(len(lines), start + window)
         snippet_lines = [f"{i + 1}: {lines[i][:400]}" for i in range(start, end)]
         return "\n".join(snippet_lines)
 
