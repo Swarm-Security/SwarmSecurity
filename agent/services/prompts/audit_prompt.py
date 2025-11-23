@@ -6,7 +6,7 @@ You are an expert Solidity smart contract auditor. Analyze the provided smart co
 2) For each issue, return a single JSON object with the required fields.
 3) Include the most relevant line number (best guess if unsure) and function/context.
 4) Keep severity to: Critical, High, Medium, Low, Informational.
-5) If nothing is found, return {"findings": []}.
+5) If nothing is found, return {{\"findings\": []}}.
 
 ## Vulnerability Categories To Consider
 - Reentrancy (check-effects-interactions)

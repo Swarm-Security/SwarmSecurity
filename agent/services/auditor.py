@@ -208,30 +208,14 @@ class SolidityAuditor:
                 logger.debug(f"Raw swarm results for {file_obj.path}: {swarm_results}")
                 
                 for res in swarm_results:
-                    # Moderate gates: require description, line, severity >= Medium, attack logic for Medium+, and basic confidence
+                    # Relaxed gates: require description, line, and severity >= Low
                     persona = res.get("detected_by", "unknown")
                     weight = persona_weights.get(persona, 1.0)
                     if not res.get("description") or res.get("line_number", 0) == 0:
                         continue
                     severity = res.get("severity", "High")
                     severity_rank = {"Critical": 4, "High": 3, "Medium": 2, "Low": 1, "Informational": 0}
-                    if severity_rank.get(severity, 0) < 2:
-                        continue
-                    attack_logic = res.get("attack_logic")
-                    if severity_rank.get(severity, 0) >= 2 and (not attack_logic or str(attack_logic).strip().lower() in {"", "none"}):
-                        continue
-                    conf = res.get("confidence_score", 0)
-                    fp_risk = res.get("false_positive_risk", 100)
-                    try:
-                        conf = int(conf)
-                    except Exception:
-                        conf = 0
-                    try:
-                        fp_risk = int(fp_risk)
-                    except Exception:
-                        fp_risk = 100
-                    adjusted_conf = int(conf * weight)
-                    if adjusted_conf < 30 or fp_risk > 90:
+                    if severity_rank.get(severity, 0) < 1:
                         continue
 
                     # Map RedSpectre result to AgentArena Finding Model
