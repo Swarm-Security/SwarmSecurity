@@ -41,7 +41,7 @@
    make server         # Start server (or make tunnel for webhook)
    ```
 
-<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/a8713496-2617-4ad5-b32a-fe5c4f206f5e" />
+<img width="5120" height="512" alt="image" src="https://github.com/user-attachments/assets/a8713496-2617-4ad5-b32a-fe5c4f206f5e" />
 
 
 ## Project Summary
