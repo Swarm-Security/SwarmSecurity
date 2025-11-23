@@ -5,11 +5,13 @@ import json
 import os
 import logging
 import tempfile
+import time
 from typing import List
 import git
 import glob
 import questionary
 from agent.services.auditor import SolidityAuditor
+from agent.services.metrics import record_benchmark
 from agent.models.solidity_file import SolidityFile
 from agent.config import Settings
 
@@ -156,6 +158,7 @@ def process_local(repo_url: str, output_path: str, config: Settings, commit_hash
     )
     
     try:
+        start_time = time.time()
         # Clone the repository
         repo_path = clone_repository(repo_url, commit_hash)
         
@@ -175,6 +178,11 @@ def process_local(repo_url: str, output_path: str, config: Settings, commit_hash
 
         # Save results
         save_audit_results(output_path, json.dumps(audit_dict, indent=2))
+
+        # Record benchmark metrics
+        duration = time.time() - start_time
+        benchmark_path = record_benchmark(repo_url, audit.findings, duration_seconds=duration)
+        logger.info(f"Benchmark saved to {benchmark_path}")
         
         logger.info("Security audit completed successfully")
         
