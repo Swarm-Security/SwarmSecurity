@@ -1,14 +1,16 @@
+from typing import List, Dict, Any
 from .personas.thief import Thief
 from .personas.logician import Logician
-from typing import List, Dict, Any
+from .personas.defi_analyst import DeFiAnalyst
 
 class Swarm:
     def __init__(self, api_key: str = None, model: str = None):
         # The Council of Agents
         # Add new personas here as you build them
         self.agents = [
-            Thief(api_key=api_key, model=model), 
-            Logician(api_key=api_key, model=model)
+            Thief(api_key=api_key, model=model),
+            Logician(api_key=api_key, model=model),
+            DeFiAnalyst(api_key=api_key, model=model),
         ]
 
     def analyze_file(self, source_code: str, filename: str) -> List[Dict[str, Any]]:

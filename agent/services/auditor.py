@@ -11,6 +11,7 @@ from openai import OpenAI
 # --- REDSPECTRE IMPORTS ---
 from agent.services.swarm import Swarm
 from agent.services.scout import Scout
+from agent.services.dedup import deduplicate_findings
 # --------------------------
 
 logger = logging.getLogger(__name__)
@@ -81,8 +82,9 @@ class SolidityAuditor:
                         file_paths=[file_obj.path]
                     ))
 
-            logger.info(f"✅ Audit completed with {len(verified_findings)} verified findings")
-            return Audit(findings=verified_findings)
+            deduped = deduplicate_findings(verified_findings)
+            logger.info(f"✅ Audit completed with {len(deduped)} deduplicated findings (raw: {len(verified_findings)})")
+            return Audit(findings=deduped)
 
         except Exception as e:
             logger.error(f"Error during RedSpectre audit: {str(e)}", exc_info=True)
