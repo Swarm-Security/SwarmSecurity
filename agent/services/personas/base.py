@@ -3,6 +3,8 @@ from openai import OpenAI
 import os
 import json
 import re
+import time
+import random
 from typing import Dict, Any, List
 
 class BasePersona(ABC):
@@ -191,8 +193,8 @@ class BasePersona(ABC):
             'If no issue, return {"found_vulnerability": false}.'
         )
 
-        try:
-            response = self.client.chat.completions.create(
+        def _call():
+            return self.client.chat.completions.create(
                 model=self.model,
                 messages=[
                     {"role": "system", "content": system_prompt},
@@ -200,8 +202,23 @@ class BasePersona(ABC):
                 ],
                 response_format={"type": "json_object"}
             )
-            raw = json.loads(response.choices[0].message.content)
-            return self._normalize_response(raw)
+
+        try:
+            max_attempts = 3
+            for attempt in range(1, max_attempts + 1):
+                try:
+                    response = _call()
+                    raw = json.loads(response.choices[0].message.content)
+                    return self._normalize_response(raw)
+                except Exception as e:
+                    msg = str(e).lower()
+                    if "rate limit" in msg or "429" in msg:
+                        if attempt == max_attempts:
+                            raise
+                        sleep_ms = random.randint(200, 600) * attempt
+                        time.sleep(sleep_ms / 1000.0)
+                        continue
+                    raise
         except Exception as e:
             print(f"[{self.name}] Error: {e}")
             return {"found_vulnerability": False}

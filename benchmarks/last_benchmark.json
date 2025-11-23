@@ -1,15 +1,9 @@
 {
-  "timestamp": "2025-11-23T11:22:21.334978Z",
+  "timestamp": "2025-11-23T12:55:27.797399Z",
   "raw_persona_outputs": [
     {
       "persona": "AccessControlExpert",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ArithmeticExpert",
-      "raw": {
         "found_vulnerability": false,
         "optimization_opportunity": false,
         "title": "Unknown Finding",
@@ -29,80 +23,6 @@
     {
       "persona": "DeFi Risk Analyst",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "DoSExpert",
-      "raw": {
-        "found_vulnerability": true,
-        "optimization_opportunity": false,
-        "title": "DoS Vulnerability Due to Unbounded Iteration in Cred.sol",
-        "description": "The function `getCuratorAddresses` iterates over all addresses with shares in a cred without any gas limit checks. If the list is too large, it can exceed the block gas limit, making it unreachable and unusable for the users. Similarly, in `getBatchBuyPrice` and `getBatchSellPrice`, the protocol processes multiple creds and amounts in a loop, without gas usage precautions. An attacker (or group of users) could fill enough addresses or inputs to cause block gas limit exhaustion, creating a denial of service.",
-        "attack_logic": "An attacker could flood the smart contract with numerous credIds and corresponding share balances. When a legitimate user or the protocol itself tries to retrieve all curator addresses for operations, the transaction will revert due to block gas limit exhaustion. This effectively blocks certain functionalities, causing a denial of service.",
-        "verification_proof": "Consider a test environment where the number of curators for a single cred is enormous, or where numerous small batch buy operations are conducted with various credIds. The process would fail or consume a prohibitively high amount of gas, thereby effectively simulating a denial of service scenario.",
-        "gas_savings_estimate": null,
-        "kill_chain": null,
-        "affected_functions": [
-          "getBatchBuyPrice",
-          "getBatchSellPrice",
-          "getCuratorAddresses",
-          "getCuratorAddressesWithAmount"
-        ],
-        "affected_lines": [
-          666,
-          702,
-          759
-        ],
-        "severity": "High",
-        "line_number": 666,
-        "confidence_score": 90,
-        "false_positive_risk": 10
-      }
-    },
-    {
-      "persona": "EconomicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ErrorHandlingExpert",
-      "raw": {
-        "found_vulnerability": true,
-        "optimization_opportunity": false,
-        "title": "Silent Failure in Batch Trades Due to Empty Reverts in _validateAndCalculateBatch",
-        "description": "The `_validateAndCalculateBatch` function silently prevents batch operations from succeeding when it hits a revert condition. This happens without providing detailed error messages to the user, which makes it hard to debug issues effectively. By using require statements with clear error messages instead of silent reverts, users would benefit from better traceability of failures during batch operations.",
-        "attack_logic": "A malicious user could exploit this silent fail to continuously pass erroneous conditions in batch requests, leading to unnecessary operations and potential denial of service through spamming invalid operations without clear feedback to the operator.",
-        "verification_proof": "Functions `batchBuyShareCred` and `batchSellShareCred` use `_validateAndCalculateBatch`, where various revert conditions exist without messages. When these conditions are not met, execution reverts silently, providing limited insight or logging information to diagnose or understand failures.",
-        "gas_savings_estimate": null,
-        "kill_chain": null,
-        "affected_functions": [
-          "batchBuyShareCred",
-          "batchSellShareCred"
-        ],
-        "affected_lines": [
-          1101,
-          1106,
-          1186,
-          1224,
-          1262
-        ],
-        "severity": "Medium",
-        "line_number": 1262,
-        "confidence_score": 85,
-        "false_positive_risk": 20
-      }
-    },
-    {
-      "persona": "FlashLoanExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FrontrunningExpert",
-      "raw": {
         "found_vulnerability": false,
         "optimization_opportunity": false,
         "title": "Unknown Finding",
@@ -117,165 +37,6 @@
         "line_number": 0,
         "confidence_score": 60,
         "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "GasOptimizationExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "InheritanceExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "LogicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "LowLevelCallsExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "OracleExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ReentrancyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "SignatureExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "StorageProxyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TimestampExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TokenExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "Critic",
-      "raw": {
-        "found_vulnerability": false,
-        "optimization_opportunity": false,
-        "title": "Unknown Finding",
-        "description": "",
-        "attack_logic": "",
-        "verification_proof": null,
-        "gas_savings_estimate": null,
-        "kill_chain": null,
-        "affected_functions": [],
-        "affected_lines": [],
-        "severity": "High",
-        "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "AuditGeneralist",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "AccessControlExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ArithmeticExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "DeFi Risk Analyst",
-      "raw": {
-        "found_vulnerability": false,
-        "optimization_opportunity": false,
-        "title": "Unknown Finding",
-        "description": "",
-        "attack_logic": "",
-        "verification_proof": null,
-        "gas_savings_estimate": null,
-        "kill_chain": null,
-        "affected_functions": [],
-        "affected_lines": [],
-        "severity": "High",
-        "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "DoSExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "EconomicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ErrorHandlingExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FlashLoanExpert",
-      "raw": {
-        "found_vulnerability": false,
-        "optimization_opportunity": false,
-        "title": "Unknown Finding",
-        "description": "",
-        "attack_logic": "",
-        "verification_proof": null,
-        "gas_savings_estimate": null,
-        "kill_chain": null,
-        "affected_functions": [],
-        "affected_lines": [],
-        "severity": "High",
-        "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "FrontrunningExpert",
-      "raw": {
-        "found_vulnerability": false
       }
     },
     {
@@ -283,556 +44,28 @@
       "raw": {
         "found_vulnerability": false,
         "optimization_opportunity": true,
-        "title": "Gas Optimization Opportunity: Cache Storage Reads in Loops",
-        "description": "The contract contains loops that could benefit from caching storage reads to improve gas efficiency. In the 'batchClaim' function, there are storage reads in a loop that could be optimized.",
-        "attack_logic": "",
-        "verification_proof": null,
-        "gas_savings_estimate": "Caching storage variables accessed in loops can save significant gas, especially when the loop iterates several times.",
+        "title": "Gas Optimization Opportunity: Cache Storage Reads Outside Loops and Improve Batch Loop Efficiency",
+        "description": "Multiple functions read storage variables inside loops multiple times without caching local copies, leading to redundant SLOADs that increase gas costs.\n\nExamples:\n- In getPositionsForCurator (lines 628+), the 'userCredIds[i]' is accessed repeatedly and shareBalance[credId].get(curator_) is called inside the loop, causing multiple SLOADs.\n- In _validateAndCalculateBatch (line 638+), 'creds[credId]' storage is accessed repeatedly inside loops.\n- In _executeBatchTrade (line 695+), 'creds[credId]' and 'lastTradeTimestamp[credId][curator]' are read and written multiple times without caching.\n- In _getCuratorData (line 749+), shareBalance[credId].length() and .at(i) and isShareHolder are called per iteration, which internally reads storage multiple times.\n\nCaching these storage values in local memory variables outside loops can reduce SLOAD repetition, lowering gas cost especially for large batch operations or paginated reads.\n\nAdditional notes:\n- EnumerableMap usage inherently may cause some unavoidable costs, but local caching of length(), storage mappings, or values can help.\n- _removeCredIdPerAddress decrement of _credIdsPerAddressArrLength is redundant given .pop() updates array length.\n\nGas Savings Estimate:\n- Potential saving of hundreds to thousands of gas per batch operation depending on input size, mainly due to fewer SLOADs in loops.",
+        "attack_logic": "This is not a vulnerability but a gas inefficiency that causes higher transaction costs. Attackers or attackers with limited gas budgets could use this inefficiency to render operations pricier.",
+        "verification_proof": "By caching storage reads like 'creds[credId]', 'shareBalance[credId]', and array lengths in local variables before looping, you avoid multiple SLOADs per iteration.\n\nFor example, in getPositionsForCurator:\n- Cache _credIdsPerAddress[curator_] into a local memory array.\n- Cache shareBalance[credId].get(curator_) only once per 'credId' if possible.\n\nSimilarly, in _validateAndCalculateBatch and _executeBatchTrade, cache creds[credId] in a local variable.\n\nBenchmarking gas cost before and after will show meaningful reductions for batch sizes >1.",
+        "gas_savings_estimate": null,
         "kill_chain": null,
-        "affected_functions": [],
-        "affected_lines": [],
+        "affected_functions": [
+          "getPositionsForCurator",
+          "_validateAndCalculateBatch",
+          "_executeBatchTrade",
+          "_getCuratorData"
+        ],
+        "affected_lines": [
+          628,
+          638,
+          695,
+          749
+        ],
         "severity": "Informational",
-        "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "InheritanceExpert",
-      "raw": {
-        "found_vulnerability": false,
-        "optimization_opportunity": false,
-        "title": "Unknown Finding",
-        "description": "",
-        "attack_logic": "",
-        "verification_proof": null,
-        "gas_savings_estimate": null,
-        "kill_chain": null,
-        "affected_functions": [],
-        "affected_lines": [],
-        "severity": "High",
-        "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "LogicExpert",
-      "raw": {
-        "found_vulnerability": false,
-        "optimization_opportunity": false,
-        "title": "Unknown Finding",
-        "description": "",
-        "attack_logic": "",
-        "verification_proof": null,
-        "gas_savings_estimate": null,
-        "kill_chain": null,
-        "affected_functions": [],
-        "affected_lines": [],
-        "severity": "High",
-        "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "LowLevelCallsExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "OracleExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ReentrancyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "SignatureExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "StorageProxyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TimestampExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TokenExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "Critic",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "AuditGeneralist",
-      "raw": {
-        "found_vulnerability": false,
-        "optimization_opportunity": false,
-        "title": "Unknown Finding",
-        "description": "",
-        "attack_logic": "",
-        "verification_proof": null,
-        "gas_savings_estimate": null,
-        "kill_chain": null,
-        "affected_functions": [],
-        "affected_lines": [],
-        "severity": "High",
-        "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "AccessControlExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ArithmeticExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "DeFi Risk Analyst",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "DoSExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "EconomicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ErrorHandlingExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FlashLoanExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FrontrunningExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "GasOptimizationExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "InheritanceExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "LogicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "LowLevelCallsExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "OracleExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ReentrancyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "SignatureExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "StorageProxyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TimestampExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TokenExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "Critic",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "AuditGeneralist",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "AccessControlExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ArithmeticExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "DeFi Risk Analyst",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "DoSExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "EconomicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ErrorHandlingExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FlashLoanExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FrontrunningExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "GasOptimizationExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "InheritanceExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "LogicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "LowLevelCallsExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "OracleExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ReentrancyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "SignatureExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "StorageProxyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TimestampExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TokenExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "Critic",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "AuditGeneralist",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "AccessControlExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ArithmeticExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "DeFi Risk Analyst",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "DoSExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "EconomicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ErrorHandlingExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FlashLoanExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FrontrunningExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "GasOptimizationExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "InheritanceExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "LogicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "LowLevelCallsExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "OracleExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ReentrancyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "SignatureExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "StorageProxyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TimestampExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TokenExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "Critic",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "AuditGeneralist",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "AccessControlExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ArithmeticExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "DeFi Risk Analyst",
-      "raw": {
-        "found_vulnerability": false,
-        "optimization_opportunity": false,
-        "title": "Unknown Finding",
-        "description": "",
-        "attack_logic": "",
-        "verification_proof": null,
-        "gas_savings_estimate": null,
-        "kill_chain": null,
-        "affected_functions": [],
-        "affected_lines": [],
-        "severity": "High",
-        "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "DoSExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "EconomicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ErrorHandlingExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FlashLoanExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FrontrunningExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "GasOptimizationExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "InheritanceExpert",
-      "raw": {
-        "found_vulnerability": false
+        "line_number": 638,
+        "confidence_score": 95,
+        "false_positive_risk": 5
       }
     },
     {
@@ -840,152 +73,803 @@
       "raw": {
         "found_vulnerability": true,
         "optimization_opportunity": false,
-        "title": "Art Creation Fee Transfer Vulnerability",
-        "description": "In the createArtFromFactory function, there is a potential vulnerability in how Ether is transferred to protocolFeeDestination using safeTransferETH. The function does not check if the transfer is successful, which might result in Ether loss if the destination is unable to receive Ether (e.g., processing a contract with a default function that reverts). Additionally, the arithmetic for calculating the refund amount improperly involves msg.value without proper checks.",
-        "attack_logic": "If the protocolFeeDestination address is a contract with certain restrictions on receiving Ether or if it deliberately fails or reverts the transfer (e.g., when it implements a fallback function that rejects ETH receipt), the transfer to the protocolFeeDestination will fail, possibly leading to unexpected behavior.",
-        "verification_proof": "Checking the transaction revert reason or contract balance changes after executing createArtFromFactory can demonstrate if the Ether was not properly transferred to protocolFeeDestination.",
+        "title": "Logic Error: Batch Sell Buy Share Functions Bypass Price Checks and LastTradeTimestamp Checks",
+        "description": "The batchBuyShareCred and batchSellShareCred functions allow users to buy or sell shares in batch. However, while _validateAndCalculateBatch validates price limits, existing shares, and final pricing, the actual execution of trades in _executeBatchTrade does NOT re-check price limits, does NOT verify sufficient shares on sell, and in particular, bypasses the critical lastTradeTimestamp SHARE_LOCK_PERIOD check enforced in single _handleTrade sell operations. This means users can circumvent the enforced lock period between share sales by batch selling shares. Additionally, the batch sell function sends ETH to the caller after batch execution without ensuring the total payout matches the actual sum transferred, making it vulnerable if external contracts alter state during calls. This could lead to multiple sell shares within the lock period, violating intended share lock invariants, enabling rapid share dumping and unfair trading. It also allows inconsistent or stale price enforcement due to lack of re-validation at execution stage, potentially resulting in trades occurring outside acceptable price bounds.",
+        "attack_logic": "1) A user calls batchSellShareCred with multiple credIds and amounts.\n2) _validateAndCalculateBatch verifies prices and share balances for the sender at check time, but shares and lastTradeTimestamp could change before execution.\n3) _executeBatchTrade performs the share balance update and currentSupply decrement without re-checking the share lock period or share sufficiency.\n4) Because of no lastTradeTimestamp check in batch execution, a user can circumvent the SHARE_LOCK_PERIOD enforced in single sellShareCred calls.\n5) User can repeatedly batch sell shares quickly to circumvent cooldown, potentially dumping shares unfairly.\n6) Price limits could also be bypassed if share balances or prices changed between validation and execution due to external influence or concurrency.\n7) The batch buy side lacks explicit re-checks too, though less severe because of payable and supply checks.\n\nThis violates the intended invariant that a user must wait SHARE_LOCK_PERIOD between shares sells and may enable economic manipulations.",
+        "verification_proof": "Review of _handleTrade shows lastTradeTimestamp checked before share sell at line ~449 (block.timestamp <= lastTradeTimestamp + SHARE_LOCK_PERIOD revert). Batch functions (batchSellShareCred at line ~481) call _validateAndCalculateBatch (line ~550) which checks share sufficiency and price limits but does NOT check lastTradeTimestamp. Then _executeBatchTrade (line ~590) updates shares and supply for sell without any lastTradeTimestamp check and does not update lastTradeTimestamp for sells (only does so for buys line 596). This is a violation of invariants. Thus, the batch sell bypasses temporal share lock. The batch buy similarly omits re-checks at execution, risking price invariant breaks. Batch sell transfers ETH payout after _executeBatchSell with no re-entrancy or state re-checks, but reentrancy is guarded, so safe from Reentrancy but not logical invariant violation. This bug is confirmed by static code analysis referencing concrete lines / functions.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "batchBuyShareCred",
+          "batchSellShareCred",
+          "_executeBatchTrade",
+          "_executeBatchBuy",
+          "_executeBatchSell",
+          "_validateAndCalculateBatch"
+        ],
+        "affected_lines": [
+          471,
+          481,
+          502,
+          526,
+          540,
+          550,
+          581,
+          589,
+          593,
+          598,
+          608,
+          618,
+          630,
+          677
+        ],
+        "severity": "High",
+        "line_number": 481,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "ReentrancyExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "Critic",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "AuditGeneralist",
+      "raw": {
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Missing Reentrancy Guard on _handleTrade Allowing Reentrancy on buyShareCred and sellShareCred",
+        "description": "The internal function _handleTrade (line ~553), which is called by public payable functions buyShareCred, sellShareCred, buyShareCredFor and indirectly by createCred (via _createCredInternal -> buyShareCred), lacks the nonReentrant modifier or any reentrancy guard. The function sends ETH via safeTransferETH (line 575, 581, 595), which can trigger malicious fallback logic and allow reentrancy. Although batch trades (_executeBatchTrade on line 692) use the nonReentrant modifier, individual trades do not. This discrepancy creates a reentrancy risk when buying or selling shares individually. Reentrancy can enable attackers to manipulate share balances, supply counts, and receive unauthorized profits or bypass business logic checks such as share lock periods.",
+        "attack_logic": "An attacker calls buyShareCred or sellShareCred supplying crafted input triggering _handleTrade. Because payments are sent to the attacker (or an attacker-controlled contract receives refunds or creatorFee rewards), the attacker contract fallback function reenters buyShareCred or sellShareCred before state updates (like supply or balances) finish, allowing repeated trades or supply manipulation. This can lead to draining funds, minting shares beyond max supply, or bypassing lock periods for selling.",
+        "verification_proof": "The presence of ETH transfers in _handleTrade without nonReentrant guard and the existence of transfer calls before final state changes (line 575, 581, 595) confirms classic reentrancy vector. The batch trade function uses nonReentrant, confirming that individual trade functions missing it is likely an oversight rather than intentional safe design.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "buyShareCred",
+          "sellShareCred",
+          "buyShareCredFor",
+          "createCred",
+          "_handleTrade"
+        ],
+        "affected_lines": [
+          429,
+          445,
+          452,
+          471,
+          494,
+          553
+        ],
+        "severity": "High",
+        "line_number": 429,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "AccessControlExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "DeFi Risk Analyst",
+      "raw": {
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Bypass of Single-Claim Restrictions Enables Multiple NFT Mints Per Cred or Art",
+        "description": "The PhiFactory contract exhibits a logic flaw that allows users to mint multiple NFTs for the same credential and art combination, bypassing intended single-claim constraints. The mappings artMinted[artId][address] and credMinted[credChainId][credId][address] track if a minter has already claimed NFTs for a given art or credential, but the code never reverts or blocks minting if these flags are true. In _validateAndUpdateClaimState, these mappings are updated but never checked to block a repeated claim by the same minter. This allows an attacker to call claim (via merkleClaim or signatureClaim) multiple times with the same minter address, minting the same NFT repeatedly, leading to inflation of the NFT supply beyond maxSupply controls and unintended revenue dilution.",
+        "attack_logic": "1. User prepares valid claim data for a specific artId and minter address.\n2. Calls claim (or merkleClaim/signatureClaim) multiple times with the same minter address.\n3. Despite artMinted and credMinted flags being set on the first claim, the contract does not revert or block subsequent claims.\n4. Each claim increments numberMinted and allows minting beyond intended 'one per minter' constraints.\n5. This enables malicious inflation of NFTs and potential economic damage (e.g., royalties dilution, reward exploitation).",
+        "verification_proof": "Examination of _validateAndUpdateClaimState (line ~785) shows artMinted and credMinted flags are set but never cause a revert if already true. No other code paths check these flags to prevent multiple claims. Therefore, repeated calls with the same minter bypass single-claim semantics.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "claim",
+          "signatureClaim",
+          "merkleClaim",
+          "_validateAndUpdateClaimState"
+        ],
+        "affected_lines": [
+          280,
+          285,
+          318,
+          338,
+          785
+        ],
+        "severity": "High",
+        "line_number": 285,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "GasOptimizationExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": true,
+        "title": "Gas Optimization Opportunity: Cache storage reads and reduce repeated SLOADs in loops and function calls",
+        "description": "Several functions repeatedly access storage mappings or storage variables inside loops or multiple times without caching these values into memory. For example, in batchClaim(), the storage function this.claim() is called in a loop resulting in multiple external calls and unnecessary overhead. In getTotalMintFee(), getArtMintFee is called repeatedly for each artId, reading storage multiple times for arts mapping and phiRewardsAddress. Also, in _validateAndUpdateClaimState and _processClaim, multiple access to arts[artId_] occur repeatedly. Caching storage structs or variables into memory where possible before use can reduce expensive SLOAD operations, improving gas efficiency.",
+        "attack_logic": "Not a vulnerability, but inefficient storage access increases gas costs during high-volume claim or fee calculation operations.",
+        "verification_proof": "Reviewing code shows multiple repeated reads of mapping 'arts', nested mapping 'credMinted' and multiple SLOADs of addresses in PhiRewards interface calls and multiple external calls in batchClaim() without gas saving caching.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "batchClaim",
+          "_validateAndUpdateClaimState",
+          "_processClaim",
+          "getTotalMintFee"
+        ],
+        "affected_lines": [
+          463,
+          469,
+          472,
+          471,
+          540,
+          541,
+          507,
+          624,
+          633,
+          639
+        ],
+        "severity": "Informational",
+        "line_number": 475,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "LogicExpert",
+      "raw": {
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Missing claimed status check in _validateAndUpdateClaimState allows multiple claims per address",
+        "description": "The function _validateAndUpdateClaimState (line 385) updates claim-related mappings but does not check if the minter has already claimed an art (artMinted mapping). Consequently, a user can repeatedly claim the same art multiple times without restriction. This violates the intended invariant that each address can only claim once per art. The batchClaim, claim, signatureClaim, and merkleClaim functions rely on _validateAndUpdateClaimState but do not perform an explicit check preventing multiple claims. Adding a require statement to check artMinted[artId_][minter_] before allowing claims will fix this.",
+        "attack_logic": "An attacker calls claim (or batchClaim/signatureClaim/merkleClaim) multiple times with the same user address and artId. Since no check prevents repeated claims, the attacker receives multiple mints and rewards illegitimately, inflating supply beyond intended limits and possibly manipulating rewards.",
+        "verification_proof": "Reviewing _validateAndUpdateClaimState shows no presence of 'require' or revert on artMinted[artId_][minter_] being true. Instead, it unconditionally sets artMinted[artId_][minter_] = true. This allows repeated calls with the same minter and artId. The numberMinted counter increases with each call, confirming that multiple mints are possible per address.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "_validateAndUpdateClaimState",
+          "claim",
+          "batchClaim",
+          "signatureClaim",
+          "merkleClaim"
+        ],
+        "affected_lines": [
+          374,
+          385,
+          390,
+          399,
+          432
+        ],
+        "severity": "High",
+        "line_number": 385,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "ReentrancyExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "Critic",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "AuditGeneralist",
+      "raw": {
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Reentrancy Guard Implementation is Inverted and Ineffective",
+        "description": "The nonReentrant modifier uses a 'locked' state variable that is initialized to 1 and requires locked == 1 to proceed, then sets locked to 2 during execution, and resets to 1 at the end. The check in the modifier is if (locked != 1) revert, which means the function can only run if locked is exactly 1. This is a non-standard pattern reversed from typical ReentrancyGuard usage (usually locked equals 0 initially, set to 1 in modifier, reset to 0 after). While it might work as intended, the unusual design can lead to confusion and errors. More importantly, it relies on a single uint256 variable \u2018locked\u2019 with values 1 and 2, which is fragile and error-prone compared to using a boolean or OpenZeppelin's established ReentrancyGuard. This pattern may confuse developers and auditors and increases risk of introducing reentrancy bugs if accidentally changed. The modifier is applied to createArt function (line 103) which includes an external call (_createNewNFTContract calls newArt.call with value), creating a reentrancy risk if the guard fails.",
+        "attack_logic": "An attacker could attempt to reenter createArt or any other protected function if the guard fails or is bypassed due to unconventional locking logic. If future changes modify 'locked' variable setting incorrectly, reentrancy could occur. The external calls with value forwarding provide reentrancy entry points.",
+        "verification_proof": "The nonReentrant modifier implementation is inverted relative to standard patterns. It stores locked=1 initially and requires locked==1 to enter. Then sets locked=2 during execution, resets to 1 after. This works only if the logic is never modified incorrectly. Best practice is to use a boolean-like guard (false/true) or OpenZeppelin ReentrancyGuard using uint256 _NOT_ENTERED=1 and _ENTERED=2 to avoid confusion and bugs.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "createArt"
+        ],
+        "affected_lines": [
+          73,
+          74,
+          75,
+          76,
+          77
+        ],
+        "severity": "High",
+        "line_number": 74,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "AccessControlExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "DeFi Risk Analyst",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "GasOptimizationExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": true,
+        "title": "Gas Optimization Opportunity: Cache Storage Calls to getPhiFactoryContract and getFactoryArtId",
+        "description": "Both signatureClaim() and merkleClaim() external functions call the getPhiFactoryContract() and getFactoryArtId() functions multiple times within the same call context. Since these calls are public view virtual functions (likely reading storage or performing other view operations), each call costs gas. Caching the results in local variables and reusing them within the function reduces redundant external calls and can save gas.",
+        "attack_logic": "Repeated calls to getFactoryArtId(tokenId) and getPhiFactoryContract() are performed more than once per function invocation, causing unnecessary extra gas consumption.",
+        "verification_proof": "In signatureClaim(), the line `uint256 artId = getFactoryArtId(tokenId_);` and then immediately `IPhiFactory phiFactoryContract = getPhiFactoryContract();`. In merkleClaim(), these two functions are called too. We can cache these once at the start of each function and reuse them in the rest of the logic.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "signatureClaim",
+          "merkleClaim"
+        ],
+        "affected_lines": [
+          24,
+          36,
+          44
+        ],
+        "severity": "Informational",
+        "line_number": 36,
+        "confidence_score": 95,
+        "false_positive_risk": 10
+      }
+    },
+    {
+      "persona": "LogicExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "ReentrancyExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "Critic",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "AuditGeneralist",
+      "raw": {
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Use of direct low-level msg.data decoding without validation exposes signatureClaim and merkleClaim to malformed calldata attacks",
+        "description": "The signatureClaim and merkleClaim functions directly decode calldata slice msg.data[4:] into tightly packed fixed and dynamic data without prior checks on calldata length to ensure proper calldata size. In signatureClaim, no calldata size or format validation is performed before abi.decode. For merkleClaim, _decodeMerkleClaimData only checks msg.data.length < 260 but this is a very low threshold and does not guarantee that the decoded values are correctly sized or non-malicious. Malformed input or incorrectly encoded calldata can cause decode errors or runtime exceptions. Additionally, this pattern opens up risks if a user crafts calldata with unexpected dynamic data sizes (like the string imageURI), potentially causing out-of-gas or revert during decoding or downstream calls in PhiFactory. This input trust without validation can be exploited to intentionally cause reverts, DOS, or unexpected behavior during claims. It also relies heavily on the correctness and trustworthiness of the off-chain encoding/signer, which might be broken or malicious.",
+        "attack_logic": "An attacker crafts calldata with invalid or malformed ABI encoding for signatureClaim or merkleClaim featuring mismatched dynamic array lengths or corrupted string fields. When the contract attempts to abi.decode msg.data[4:] it either reverts outright or consumes excessive gas processing malformed input. This can be used to DOS claim functions or cause contract to behave inconsistently. Because no size validation or data sanitization occurs before decoding, the contract trusts arbitrary calldata slicing to abi.decode with complex types, opening up unsafe behaviors or reverts.",
+        "verification_proof": "Minimal poc involves calling signatureClaim or merkleClaim with deliberately truncated or mal-encoded calldata payloads less than expected length or corrupted dynamic string/array encoding, causing abi.decode to revert or behave unexpectedly. The low threshold of 260 bytes for merkleClaim decoding is insufficient to guarantee safe decoding for inputs containing dynamic string and bytes32[] arrays.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "signatureClaim",
+          "merkleClaim",
+          "_decodeMerkleClaimData"
+        ],
+        "affected_lines": [
+          28,
+          33,
+          59
+        ],
+        "severity": "High",
+        "line_number": 33,
+        "confidence_score": 90,
+        "false_positive_risk": 10
+      }
+    },
+    {
+      "persona": "AccessControlExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "DeFi Risk Analyst",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "GasOptimizationExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": true,
+        "title": "Gas Optimization Opportunity: Reduce Duplicate Storage Reads for 'initilaized' and 'royaltyRecipient'",
+        "description": "The contract reads the storage variable 'initilaized' multiple times within functions, such as in initializeRoyalties() and getRoyalties(), causing redundant SLOAD operations. Similarly, 'royaltyRecipient' is read from storage multiple times in getRoyalties(). Caching these storage values in memory variables within the function scope reduces repeated SLOAD gas costs, especially for functions called frequently or within loops in inheriting contracts.",
+        "attack_logic": "Not applicable as this is an optimization rather than a vulnerability.",
+        "verification_proof": "In getRoyalties(uint256 tokenId), the contract first checks 'initilaized' (storage SLOAD), then reads 'royalties[tokenId]' (another SLOAD), then again reads 'royaltyRecipient' (SLOAD) if config.royaltyRecipient is zero. Caching 'initilaized' and 'royaltyRecipient' in local memory variables would save redundant reads.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "initializeRoyalties",
+          "getRoyalties",
+          "royaltyInfo"
+        ],
+        "affected_lines": [
+          14,
+          24,
+          32
+        ],
+        "severity": "Informational",
+        "line_number": 14,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "LogicExpert",
+      "raw": {
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Critical Typo Causing Initialization State Variable Misuse",
+        "description": "There is a critical typo in the private boolean variable name 'initilaized' (should be 'initialized'). This typo is consistently used to check if the contract royalties have been initialized. Because of this misspelling, the intended flag to prevent multiple initializations and to ensure the contract is initialized before use may fail silently or behave unexpectedly. Specifically, the initializeRoyalties function sets 'initilaized = true' to mark initialization, but any external interaction might mistakenly check the correct spelling 'initialized' (not present here, but other contracts or readers expect the common name). Moreover, this typo opens risk for accidental re-initialization or usage before proper initialization in derived or consuming contracts relying on this flag. The typo is present at line 12 (variable declaration), line 20 (check in initializeRoyalties), and line 25 (check in getRoyalties). Fixing this typo to 'initialized' consistently is necessary to preserve the intended initialization guard and contract state correctness.",
+        "attack_logic": "An attacker or any caller could call initializeRoyalties multiple times if other contracts or code check the correctly spelled variable 'initialized' instead of 'initilaized'. Since this variable is misspelled, any standard checks against 'initialized' would fail, potentially allowing multiple initializations or uninitialized contract usage leading to misconfigured royalty recipients or overwriting royalty states.",
+        "verification_proof": "Lines 12, 20, and 25 use 'initilaized' which is a typo and should be 'initialized'. This inconsistency breaks the initialization state invariant. Tests will show inability to block multiple initializeRoyalties calls if relying on the correct variable name or causing NotInitialized() errors unexpectedly.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "initializeRoyalties",
+          "getRoyalties"
+        ],
+        "affected_lines": [
+          12,
+          20,
+          25
+        ],
+        "severity": "Critical",
+        "line_number": 12,
+        "confidence_score": 100,
+        "false_positive_risk": 0
+      }
+    },
+    {
+      "persona": "ReentrancyExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "Critic",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "AuditGeneralist",
+      "raw": {
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Typographical Error in 'initialized' Variable Causes Possible Unintended Behavior",
+        "description": "The boolean state variable intended to track whether the contract royalties have been initialized is named 'initilaized' instead of 'initialized'. This typo is consistent but nonstandard and may cause confusion for developers and auditors. More importantly, future changes or overrides depending on this flag might mistakenly use the correct spelling, leading to logic errors where initialization checks fail or are bypassed, potentially causing royalty recipient misconfiguration or repeated initialization.",
+        "attack_logic": "If this variable is mistakenly accessed or shadowed elsewhere with the correct spelling 'initialized', the check to prevent multiple initializations or accesses before initialization may be bypassed, which might allow a malicious or buggy initialization or royalty setting, leading to incorrect royalties or loss of control over royalty recipients.",
+        "verification_proof": "The variable 'initilaized' is declared at line 12 and used in 'initializeRoyalties' (line 17) and 'getRoyalties' (line 26) to check initialization state. However, the naming is a typo and nonstandard. If any other contract or external caller uses the correct spelling 'initialized' (not present here), checks on initialization state will fail. This is an issue of maintainability and a potential vector for logic bugs in upgrade or inheritance scenarios.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "initializeRoyalties",
+          "getRoyalties"
+        ],
+        "affected_lines": [
+          12,
+          17,
+          26
+        ],
+        "severity": "Medium",
+        "line_number": 12,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "AccessControlExpert",
+      "raw": {
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Missing Access Control on deposit and withdrawFor functions",
+        "description": "The functions deposit, depositBatch, and withdrawFor are external and have no access control modifiers restricting who can call them. Anyone can deposit ETH to arbitrary addresses increasing the internal balances (deposit, depositBatch). More critically, anyone can call withdrawFor to withdraw funds from another user's balance without their consent, since there is no permission check that the caller is authorized to withdraw funds on behalf of the 'from' address. This allows unauthorized withdrawal of all funds stored in the internal balance mapping.",
+        "attack_logic": "An attacker calls withdrawFor with a victim address as 'from' and any 'amount' to forcibly withdraw victim's funds to address 'from'. Since no checks verify msg.sender's authorization, attacker can steal victim's funds held in this reward contract.",
+        "verification_proof": "Call deposit to assign balance to victim's address. From a different attacker address, call withdrawFor(victim, amount). The victim's balance decreases and funds are sent to victim's address, controlled by attacker off-chain via front-running or address controls.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "deposit",
+          "depositBatch",
+          "withdrawFor"
+        ],
+        "affected_lines": [
+          42,
+          57,
+          73
+        ],
+        "severity": "High",
+        "line_number": 42,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "DeFi Risk Analyst",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "GasOptimizationExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": true,
+        "title": "Gas Optimization Opportunity: Cache storage reads in depositBatch loop",
+        "description": "In the depositBatch function, 'recipients.length', 'amounts.length', and 'reasons.length' are repeatedly accessed in the for loops condition checks and inside the loops. Additionally, balanceOf[recipient] storage is updated per iteration without caching. Caching array lengths and using unchecked increment can save gas. Also, caching 'balanceOf[recipient]' before updating and writing once can reduce redundant SLOAD and SSTORE.",
+        "attack_logic": "Not an attack vector but a gas inefficiency caused by multiple SLOADs each iteration for array lengths and mapping reads/writes.",
+        "verification_proof": "Replacing 'recipients.length', 'amounts.length', and 'reasons.length' with a local uint256 variable saved outside loops reduces gas. Caching mapping reads inside the loop where increments occur is common practice to save gas. Unchecked increment for the index variable when safe further reduces gas.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "depositBatch"
+        ],
+        "affected_lines": [
+          54,
+          55,
+          63
+        ],
+        "severity": "Informational",
+        "line_number": 55,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "LogicExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "ReentrancyExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "Critic",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Likely False Positive",
+        "description": "All external and public functions that modify state have appropriate input validation (e.g., non-zero addresses checked on lines 28, 48, 62, 70, 80, 90) and array length checks on line 42. Withdraw functions properly update balances before external calls (CEI pattern) at line 90. Signature verification for withdrawWithSig (line 80) uses EIP712 compliant hashing and external signature library, with nonce increment before state-changing withdrawal (line 83). Solidity version 0.8.25 prevents overflow/underflow except in explicit unchecked blocks which are safe here. There is no ReentrancyGuard, but the contract uses CEI in _withdraw function (line 90), mitigating reentrancy risk. No speculative or missing concrete exploit paths found.",
+        "attack_logic": "No realistic attack due to proper validation on inputs and balances, CEI pattern before transfer calls, and secure EIP-712 signature verification.",
+        "verification_proof": "Review of depositBatch verifies arrays reach equal length (line 42). withdraw functions perform balance checks and update balances before safeTransferETH (line 90). Signature withdraw increments nonce before withdraw to prevent replay (line 83).",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "deposit",
+          "depositBatch",
+          "withdraw",
+          "withdrawFor",
+          "withdrawWithSig",
+          "_withdraw"
+        ],
+        "affected_lines": [
+          22,
+          28,
+          38,
+          42,
+          48,
+          62,
+          70,
+          80,
+          83,
+          90
+        ],
+        "severity": "Informational",
+        "line_number": 90,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "AuditGeneralist",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "AccessControlExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "DeFi Risk Analyst",
+      "raw": {
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Reentrancy Risk via ETH Transfers in createArtFromFactory",
+        "description": "The function createArtFromFactory transfers ETH to protocolFeeDestination using SafeTransferLib.safeTransferETH (line 105) and subsequently returns excess ETH to msg.sender (line 112). Both external ETH transfers occur before all state changes are completed (tokenIdCounter increment happens after the first transfer but before the second), which could enable a malicious recipient to reenter the contract or PhiFactory to perform unexpected calls during ETH receipt. Although the function is restricted to onlyPhiFactory and uses a single transfer to the protocolFeeDestination and refund logic, there is no reentrancy guard or Checks-Effects-Interactions pattern fully applied here. This creates potential risk if protocolFeeDestination or phiFactoryContract are malicious or compromised to reenter and manipulate state or cause unexpected side effects.",
+        "attack_logic": "An attacker controlling the protocolFeeDestination or phiFactoryContract can cause reentrant calls upon receiving ETH, exploiting the pre-state-change transfer to mint additional tokens, manipulate mappings (_artIdToTokenId), or cause inconsistencies by reentering createArtFromFactory or other external calls triggered during ETH transfer.",
+        "verification_proof": "Since createArtFromFactory transfers ETH to an external address before incrementing tokenIdCounter and returning change, a reentrant fallback function in protocolFeeDestination could invoke createArtFromFactory again or other external sensitive functions if that address is malicious. The unchecked usage of safeTransferETH on a potentially untrusted contract creates this vector.",
         "gas_savings_estimate": null,
         "kill_chain": null,
         "affected_functions": [
           "createArtFromFactory"
         ],
         "affected_lines": [
-          157,
-          162,
-          170
+          101,
+          103,
+          105,
+          112
         ],
-        "severity": "High",
-        "line_number": 157,
-        "confidence_score": 90,
-        "false_positive_risk": 10
-      }
-    },
-    {
-      "persona": "LowLevelCallsExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "OracleExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ReentrancyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "SignatureExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "StorageProxyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TimestampExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TokenExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "Critic",
-      "raw": {
-        "found_vulnerability": false,
-        "optimization_opportunity": false,
-        "title": "Unknown Finding",
-        "description": "",
-        "attack_logic": "",
-        "verification_proof": null,
-        "gas_savings_estimate": null,
-        "kill_chain": null,
-        "affected_functions": [],
-        "affected_lines": [],
-        "severity": "High",
-        "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "AuditGeneralist",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "AccessControlExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ArithmeticExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "DeFi Risk Analyst",
-      "raw": {
-        "found_vulnerability": false,
-        "optimization_opportunity": false,
-        "title": "Unknown Finding",
-        "description": "",
-        "attack_logic": "",
-        "verification_proof": null,
-        "gas_savings_estimate": null,
-        "kill_chain": null,
-        "affected_functions": [],
-        "affected_lines": [],
-        "severity": "High",
-        "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "DoSExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "EconomicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ErrorHandlingExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FlashLoanExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FrontrunningExpert",
-      "raw": {
-        "found_vulnerability": false
+        "severity": "Medium",
+        "line_number": 105,
+        "confidence_score": 85,
+        "false_positive_risk": 20
       }
     },
     {
@@ -993,24 +877,24 @@
       "raw": {
         "found_vulnerability": false,
         "optimization_opportunity": true,
-        "title": "Gas Optimization Opportunity",
-        "description": "Avoid using storage reads in loops and cache storage values. The contract can be optimized by caching the value of 'credContract.getCreatorRoyalty'. Currently, it reads this storage in both '_getCreatorFee' and 'getPriceData' functions, which could lead to redundant SLOAD operations when they are called multiple times in a loop.",
-        "attack_logic": "",
-        "verification_proof": null,
-        "gas_savings_estimate": "Estimated moderate gas savings, particularly if these functions are invoked in loops multiple times.",
+        "title": "Gas Optimization Opportunity: Cache storage reads in loops and optimize storage usage in safeBatchTransferFrom",
+        "description": "In the safeBatchTransferFrom function, the code reads storage mapping 'soulBounded' inside the for-loop by calling soulBounded(ids_[i]), which internally makes a storage read each iteration since it calls phiFactoryContract.artData(_tokenIdToArtId[tokenId_]).soulBounded. This repeated SLOAD in the loop is inefficient. Caching intermediate values before the loop or rewriting the check to minimize storage reads can save gas. Also, the mapping 'minted' is a mapping(address => bool) that is set in the mint() internal function without any packing or reusing cache; while this is standard, there is minor benefit to consider packing variables or caching 'minted[to_]' before modifying. However, the main gain is in the loops where storage reads happen multiple times. Further, in createArtFromFactory, the balance refund portion (msg.value - artFee) reads msg.value twice and performs unnecessary subtraction when the first read could be cached.",
+        "attack_logic": "Not an attack vector, but gas cost accumulates with storage reads in loop and redundant SLOADs or multiple reads of the same storage data within a function.",
+        "verification_proof": "In safeBatchTransferFrom, for each token id in ids_, the soulBounded() getter calls phiFactoryContract.artData(...) which is a storage read from an external contract. This is done on every iteration, causing expensive repeated external SLOADs. Instead, reading once before the loop or changing data structure or passing a statically cached value will save gas.",
+        "gas_savings_estimate": null,
         "kill_chain": null,
-        "affected_functions": [],
-        "affected_lines": [],
+        "affected_functions": [
+          "safeBatchTransferFrom"
+        ],
+        "affected_lines": [
+          233,
+          238,
+          243
+        ],
         "severity": "Informational",
-        "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "InheritanceExpert",
-      "raw": {
-        "found_vulnerability": false
+        "line_number": 238,
+        "confidence_score": 95,
+        "false_positive_risk": 5
       }
     },
     {
@@ -1018,55 +902,34 @@
       "raw": {
         "found_vulnerability": true,
         "optimization_opportunity": false,
-        "title": "Potential Division by Zero in _curve Function",
-        "description": "The '_curve' function calculates using a division that may lead to division by zero if 'TOTAL_SUPPLY_FACTOR' equals 'targetAmount_'. In its current state, this division would revert if 'targetAmount_' equals 'TOTAL_SUPPLY_FACTOR', due to Solidity's automatic overflow and underflow checks. However, such a condition should be avoided logically in bonding curve scenarios, as it defines an absolute cap or supply that equates to complete saturation which may not be intentional in business logic.",
-        "attack_logic": "If an external call manages to reach the '_curve' function with 'targetAmount_' equal to 'TOTAL_SUPPLY_FACTOR', this would cause a division by zero issue leading to transaction reversion. While it will not allow value extraction or manipulation, it can lead to Denial of Service (DoS) conditions in legitimate transactions irrelevant to bonding operations.",
-        "verification_proof": "Analyzing the '_curve' function reveals that the denominator in the formula `(TOTAL_SUPPLY_FACTOR - targetAmount_)` can become zero which would result in a division by zero error.",
+        "title": "Insufficient Check on Payment Amount in createArtFromFactory Function Leading to Over or Underpayment",
+        "description": "The function createArtFromFactory (lines approx. 108-121) accepts ETH payable calls and processes an art creation fee (artFee). While it transfers the artFee to the protocol fee destination, it lacks explicit validation that msg.value >= artFee. This allows the caller (PhiFactory) to send less ETH than required, which may cause the protocolFeeDestination to receive insufficient funds. It also refunds any excess ETH that exceeds the artFee, but no check exists for underpayment. This can lead to unexpected behavior or loss of intended fees. It is recommended to add a require(msg.value >= artFee) check to enforce the expected behavior.",
+        "attack_logic": "1. The onlyPhiFactory modifier restricts calls to the PhiFactory contract, which may poorly validate or simulate ETH payment.\n2. The createArtFromFactory is called with msg.value less than artFee.\n3. The protocolFeeDestination receives the transferred artFee (likely reverting or transferring less if balance insufficient).\n4. Excess ETH refund logic (line 119) does not handle underpayment.\n5. Result is either a failed transfer or fee shortfall without explicit revert.\n6. This can cause economic inconsistencies or failed expected revenue flows.",
+        "verification_proof": "Review of createArtFromFactory code shows no require or revert statement verifying msg.value >= artFee prior to transfer (line 110). The transfer call uses fixed artFee amount. If msg.value < artFee, transfer may revert due to insufficient balance on contract or result in partial transfer depending on SafeTransferLib. The refund logic (line 119) only handles excess ETH but does not prevent or handle underpayment, thus insufficient checks exist.",
         "gas_savings_estimate": null,
         "kill_chain": null,
         "affected_functions": [
-          "_curve"
+          "createArtFromFactory"
         ],
         "affected_lines": [
-          90
+          108,
+          110,
+          116,
+          119
         ],
-        "severity": "High",
-        "line_number": 90,
+        "severity": "Medium",
+        "line_number": 110,
         "confidence_score": 90,
         "false_positive_risk": 10
       }
     },
     {
-      "persona": "LowLevelCallsExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "OracleExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
       "persona": "ReentrancyExpert",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "SignatureExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "StorageProxyExpert",
-      "raw": {
         "found_vulnerability": false,
         "optimization_opportunity": false,
         "title": "Unknown Finding",
-        "description": "",
+        "description": "The PhiNFT1155 contract properly uses the OpenZeppelin ReentrancyGuardUpgradeable, and we see no instance of external calls occurring prior to state updates. In particular, payable functions handling ETH transfers, such as createArtFromFactory and claimFromFactory, honor Checks-Effects-Interactions pattern. createArtFromFactory first updates internal mappings and increments counters before making any external calls, and it forwards protocol fees using safeTransferETH after state changes. claimFromFactory calls an external contract (PhiRewards.handleRewardsAndGetValueSent) after internal state updates and uses whenNotPaused and onlyPhiFactory modifiers restricting access. The contract uses solidity 0.8.25, which has built-in overflow checks, and safeTransferETH from solady is used for ETH transfers, which reverts on failure. There is no unprotected external call where state changes afterwards or reentrancy guards are missing. Therefore, no single-function, cross-function, cross-contract, or read-only reentrancy vulnerability is present in this contract.",
         "attack_logic": "",
         "verification_proof": null,
         "gas_savings_estimate": null,
@@ -1075,39 +938,196 @@
         "affected_lines": [],
         "severity": "High",
         "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "TimestampExpert",
-      "raw": {
-        "found_vulnerability": false,
-        "optimization_opportunity": false,
-        "title": "Unknown Finding",
-        "description": "",
-        "attack_logic": "",
-        "verification_proof": null,
-        "gas_savings_estimate": null,
-        "kill_chain": null,
-        "affected_functions": [],
-        "affected_lines": [],
-        "severity": "High",
-        "line_number": 0,
-        "confidence_score": 60,
-        "false_positive_risk": 30
-      }
-    },
-    {
-      "persona": "TokenExpert",
-      "raw": {
-        "found_vulnerability": false
+        "confidence_score": 95,
+        "false_positive_risk": 5
       }
     },
     {
       "persona": "Critic",
       "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "AuditGeneralist",
+      "raw": {
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Improper Handling of msg.value and Protocol Fee Leading to Potential Denial of Service or Funds Locking",
+        "description": "In the `createArtFromFactory` function (lines ~86-95), the contract accepts a payable call with msg.value and forwards the protocol fee to the fee destination using `safeTransferETH(artFee)`. The contract then attempts to refund any excess ETH (msg.value - artFee) to the caller at line 95. However, the code does not check if msg.value is at least artFee, which means if msg.value < artFee, sending ETH to `protocolFeeDestination` will fail causing revert, which is expected. But in the case when msg.value > artFee, refunds are issued, but if the refund call fails (e.g., if the sender is a contract with a fallback that reverts), the entire transaction will revert, potentially locking minting and funds. Also, there is no reentrancy guard around this external call (safeTransferETH uses call), and the function is payable, so reentrancy vectors exist but Guard is inherited at contract level (ReentrancyGuardUpgradeable), but not used in this function. Users could exploit refund to cause DoS or grief attacks by forcing revert on refund. To mitigate, validate msg.value >= artFee upfront, use built-in reentrancy guard properly, or pull pattern for refunds, or limit refund to only when refundable amount is sent, or consider refunding via withdraw pattern to avoid reentrancy or DoS.",
+        "attack_logic": "1. Attacker calls createArtFromFactory with msg.value slightly greater than artFee.\n2. Contract attempts to refund the excess.\n3. If sender is a contract with faulty fallback that reverts, refund call fails.\n4. Refund failure causes the entire transaction to revert, blocking art creation and potential further usage.\n5. Attacker causes denial of service for art creation calls.\n\nAlternatively, with insufficient msg.value (< artFee), transaction reverts immediately preventing fee payment.",
+        "verification_proof": "Because safeTransferETH uses low-level call, it returns success or not. Here, it is called without checking for success explicitly except via revert. The conditional refund at line 95 does _msgSender().safeTransferETH(msg.value - artFee); without try/catch or checks. If refund fails, revert happens. The function is payable but no reentrancy guard is applied in this function (although contract inherits ReentrancyGuardUpgradeable). This creates a potential DoS or griefing attack vector around refund calls.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "createArtFromFactory"
+        ],
+        "affected_lines": [
+          86,
+          90,
+          92,
+          95
+        ],
+        "severity": "High",
+        "line_number": 90,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "AccessControlExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "The BondingCurve contract extends OpenZeppelin Ownable2Step and Ownable properly, using onlyOwner modifier on state-changing functions (setCredContract). The constructor properly sets the owner at deployment, and no public or external initialize functions exist that can cause privilege escalation. There are no functions using tx.origin for authorization. All public and external functions that change state are protected via onlyOwner. The getter functions are view or pure and pose no access control risk. Therefore, from an access control and privilege escalation perspective, the contract is correctly implemented and secure.",
+        "attack_logic": "",
+        "verification_proof": "Only one external state-changing function without any complex logic is setCredContract on line 31, which is protected by onlyOwner modifier. No other functions expose privileged actions. No public initialize functions exist. No use of tx.origin. Constructor properly sets ownership. No default visibility issues detected.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 100,
+        "false_positive_risk": 0
+      }
+    },
+    {
+      "persona": "DeFi Risk Analyst",
+      "raw": {
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Bonding Curve Allows Division By Zero and Price Manipulation When Supply Reaches TOTAL_SUPPLY_FACTOR",
+        "description": "The bonding curve calculation in the _curve function uses the expression `(TOTAL_SUPPLY_FACTOR - targetAmount_)` as a denominator without any input validation. If `targetAmount_` equals or exceeds TOTAL_SUPPLY_FACTOR (1000 ether), this causes division by zero or underflow in the denominator, resulting in a revert or incorrect price calculation.\n\nBecause `targetAmount_ = (supply + amount) * 1 ether` or `(supply - amount) * 1 ether`, an attacker can attempt to buy shares such that supply + amount >= TOTAL_SUPPLY_FACTOR, causing the curve function to revert or produce invalid prices.\n\nFurthermore, the function does not prevent `supply - amount` from underflowing, meaning calling getSellPrice or getPrice with supply < amount leads to large uint underflows which can cause underpriced sells.\n\nThis could be exploited to either cause a denial of service (revert on price calculation) or potentially buy shares at zero or negative cost due to underflowing prices on sell or edge cases, manipulating the bonding curve prices and fees.\n\nThe contract should validate input parameters ensuring `supply + amount < TOTAL_SUPPLY_FACTOR` in buy-related functions and `supply >= amount` in sell-related functions to prevent this arithmetic underflow/overflow and division by zero.",
+        "attack_logic": "An attacker crafts a purchase where `supply + amount >= TOTAL_SUPPLY_FACTOR`. This causes the denominator `(TOTAL_SUPPLY_FACTOR - targetAmount_)` in _curve() to be zero, triggering division by zero and revert or returning incorrect prices.\nAlternatively, an attacker sells shares exceeding current supply causing underflow in supply - amount which leads to incorrect price and fee calculations.\nThis manipulation can allow either denial of service or buy/sell manipulation to extract value unfairly.",
+        "verification_proof": "Call getPrice or getBuyPrice with supply and amount such that `supply + amount` multiplied by 1 ether equals or exceeds 1000 ether (TOTAL_SUPPLY_FACTOR). The call will revert due to division by zero in _curve.\nSimilarly, call getSellPrice with amount greater than supply, leading to underflow in supply - amount, returning incorrect price calculations.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "_curve",
+          "getPrice",
+          "getPriceData",
+          "getBuyPrice",
+          "getSellPrice",
+          "getBuyPriceAfterFee",
+          "getSellPriceAfterFee"
+        ],
+        "affected_lines": [
+          65,
+          66,
+          67
+        ],
+        "severity": "High",
+        "line_number": 66,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "GasOptimizationExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": true,
+        "title": "Gas Optimization Opportunity: Cache storage reads from credContract in getPriceData and _getCreatorFee",
+        "description": "In the functions getPriceData and _getCreatorFee, multiple calls are made to credContract, including getCreatorRoyalty and isExist. As credContract is a storage variable (an interface pointer), each call reads a storage slot which increases gas cost. Caching results of calls when called repeatedly with the same inputs will reduce unnecessary SLOAD operations, especially getCreatorRoyalty which is called twice in getPriceData and once in _getCreatorFee, and the repeated isExist call in _getCreatorFee. This is a pure gas optimization without changing logic.",
+        "attack_logic": "Not exploitable. This optimization reduces gas cost by minimizing redundant external contract calls and storage reads.",
+        "verification_proof": "For example, in getPriceData, store the tuple (buyShareRoyalty, sellShareRoyalty) once in local variables and reuse. Likewise in _getCreatorFee, store the royalty tuple and isExist result locally to avoid repeated external calls.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "getPriceData",
+          "_getCreatorFee"
+        ],
+        "affected_lines": [
+          52,
+          57,
+          72,
+          76
+        ],
+        "severity": "Informational",
+        "line_number": 57,
+        "confidence_score": 95,
+        "false_positive_risk": 5
+      }
+    },
+    {
+      "persona": "LogicExpert",
+      "raw": {
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Incorrect Creator Fee Calculation When Supply is Zero",
+        "description": "In the internal function _getCreatorFee (lines 93-111), if the supply_ parameter is zero, the creatorFee is not explicitly set to zero or returned early, leading to an uninitialized 'creatorFee' variable possibly returning garbage (likely zero but not guaranteed by compiler). The intended logic (seen in getPriceData) is that creatorFee should be zero when supply is zero. _getCreatorFee should explicitly return 0 if supply_ == 0 to avoid inconsistent fee calculations in functions like getBuyPriceAfterFee and getSellPriceAfterFee.",
+        "attack_logic": "If a caller passes supply_ == 0 to functions like getBuyPriceAfterFee or getSellPriceAfterFee, the creatorFee calculation may be incorrect or inconsistent, possibly causing unintended fee computations, affecting pricing logic and fee accounting. This can lead to incorrect pricing or fee distribution, potentially damaging economic invariants or unfair fees charged.",
+        "verification_proof": "In _getCreatorFee, the 'if (supply_ == 0) { creatorFee = 0; }' line is within the function, but there is no immediate return, so creatorFee is not guaranteed to remain zero before subsequent lines override it. The logic should short-circuit when supply_ == 0. The public view functions that call this internal function assume creatorFee = 0 when supply == 0 (e.g., getPriceData explicitly returns (price, protocolFee, 0) if supply==0). This inconsistency can cause discrepancies.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "_getCreatorFee"
+        ],
+        "affected_lines": [
+          93,
+          95,
+          97,
+          101,
+          105,
+          109
+        ],
+        "severity": "Medium",
+        "line_number": 97,
+        "confidence_score": 90,
+        "false_positive_risk": 10
+      }
+    },
+    {
+      "persona": "ReentrancyExpert",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
+      }
+    },
+    {
+      "persona": "Critic",
+      "raw": {
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
       }
     },
     {
@@ -1132,267 +1152,496 @@
     {
       "persona": "AccessControlExpert",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ArithmeticExpert",
-      "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
       }
     },
     {
       "persona": "DeFi Risk Analyst",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "DoSExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "EconomicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ErrorHandlingExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FlashLoanExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FrontrunningExpert",
-      "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Unauthorized Withdrawal of Royalty Fee by Anyone Triggering Distribute",
+        "description": "The 'distribute' function calculates a 'royaltyfee' from the total balance and pays it out to the caller who triggers the distribution. There is no access control restricting who can call 'distribute', so any user can call this function and receive the royalty fee. This can be abused by an attacker to repeatedly call 'distribute' for Cred IDs with balance and obtain the royalty fee, effectively stealing rewards minted for curators. The royalty fee is non-negligible and is paid out via a direct ETH transfer to _msgSender().",
+        "attack_logic": "Step 1: Attacker identifies a credId with a positive balanceOf.\nStep 2: Attacker calls distribute(credId).\nStep 3: The contract calculates and sends the royaltyfee to the attacker (caller).\nStep 4: The rest distributes to curators but the attacker profits by receiving the royalty fee without owning shares.\nStep 5: This can be repeated for any credId balance to continuously siphon off the royalty fee portion of deposited rewards.",
+        "verification_proof": "Since there is no 'onlyOwner' or similar modifier on 'distribute', and the caller receiving the royaltyfee is _msgSender(), anyone can call distribute() and receive royalty fees from any credId with balance.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "distribute"
+        ],
+        "affected_lines": [
+          58,
+          61,
+          67,
+          76
+        ],
+        "severity": "Medium",
+        "line_number": 67,
+        "confidence_score": 95,
+        "false_positive_risk": 5
       }
     },
     {
       "persona": "GasOptimizationExpert",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "InheritanceExpert",
-      "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": false,
+        "optimization_opportunity": true,
+        "title": "Gas Optimization Opportunity in distribute() Loop Storage Reads and Redundant Calls",
+        "description": "The distribute() function calls credContract.getShareNumber(credId, distributeAddresses[i]) twice per iteration: once to sum totalNum and again to compute each user's share, causing multiple external calls to the same contract in one loop. Also, credContract.isExist(credId) is called at the start but could be cached if multiple distribute calls or inside loops in future. Caching totalNum is done, but caching getShareNumber calls would reduce external calls. Additionally, balanceOf[credId] is read once, but balanceOf[credId] -= totalBalance writes storage; this is fine but can be explicitly noted. Caching getShareNumber values in a local array before iterating can save gas, and summing total shares in one loop is better than two. Also, local variables such as distributeAddresses.length used multiple times should be cached.",
+        "attack_logic": "N/A - This is a gas optimization, not a vulnerability.",
+        "verification_proof": "In distribute(), the code loops over distributeAddresses twice for getShareNumber (lines 60-65 and 70-87). Combining these and caching getShareNumber results into a memory array will reduce repeated SLOADs and external calls, saving gas.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "distribute"
+        ],
+        "affected_lines": [
+          60,
+          63,
+          70
+        ],
+        "severity": "Informational",
+        "line_number": 60,
+        "confidence_score": 95,
+        "false_positive_risk": 10
       }
     },
     {
       "persona": "LogicExpert",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "LowLevelCallsExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "OracleExpert",
-      "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Lack of Reentrancy Protection in distribute() Leading to Potential Reentrancy Attack",
+        "description": "The distribute() function pays out ETH royalty to the msg.sender before calling an external contract (phiRewardsContract.depositBatch) with user-controlled data (distributeAddresses and amounts). There is no reentrancy guard or Checks-Effects-Interactions (CEI) pattern fully enforced. The balanceOf[credId] is reduced before external calls, but since royalty is sent directly to _msgSender() without locking or reentrancy protection, a malicious contract could reenter distribute() and cause double withdrawals or disrupt the balance accounting. Additionally, the call to phiRewardsContract.depositBatch() is after the royalty payout, increasing attack surface since the external contract can reenter back into this contract via corrupt shares or callbacks. To remediate, either use a nonReentrant modifier or enforce strict CEI pattern and properly lock or mark the contract state during distribution.",
+        "attack_logic": "1. Attacker controls a curator address able to call distribute(). 2. Attacker triggers distribute(), it sends royalty fee ETH to attacker (the caller) via safeTransferETH, which calls attacker fallback. 3. In fallback, attacker calls distribute() again before first call finishes, relying on stale or manipulated balances. 4. Attacker can drain more funds than rightful share by repeated reentrancy, since balance is only reduced by totalBalance once per distribute call and no guard prevents nested calls. 5. This leads to potential funds loss or incorrect distribution.",
+        "verification_proof": "The distribute() function reduces balanceOf[credId] only once per call but sends royalty transfer to _msgSender() before interacting with the phiRewardsContract external call. Without a reentrancy guard, the attacker can reenter on the safeTransferETH call and call distribute() again exploiting the balance before state update or during a stale state window. The lack of any reentrancy protection and the payable transfer in the middle of logic confirm the vulnerability.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "distribute"
+        ],
+        "affected_lines": [
+          49,
+          67,
+          78
+        ],
+        "severity": "High",
+        "line_number": 67,
+        "confidence_score": 90,
+        "false_positive_risk": 10
       }
     },
     {
       "persona": "ReentrancyExpert",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "SignatureExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "StorageProxyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TimestampExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TokenExpert",
-      "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
       }
     },
     {
       "persona": "Critic",
       "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
       }
     },
     {
       "persona": "AuditGeneralist",
       "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Distribute Function Incorrect Handling of Rounding and ETH Transfers Leading to Potential Loss and Misallocation",
+        "description": "The distribute() function calculates a royalty fee and a distributeAmount, then attempts to distribute rewards proportionally to curators via the phiRewardsContract.depositBatch function while sending a leftover amount to the caller (_msgSender()). However, the contract uses a subtraction and addition of amounts to calculate leftover ETH: it transfers (royaltyfee + distributeAmount - actualDistributeAmount) ETH to _msgSender(), then forwards actualDistributeAmount ETH to the depositBatch call (line ~74). This calculation assumes exact rounding, but due to integer division and truncation, (royaltyfee + distributeAmount) can be less than actualDistributeAmount, causing an underflow in the subtraction or otherwise resulting in zero or insufficient ETH transfer. This can lead to leftover ETH being misallocated or permanently locked in the contract if depositBatch does not refund excess ETH, or allow an attacker to trigger distribution that results in insufficient reward payout. Moreover, the transfer to _msgSender() happens before calling depositBatch (an external call), which breaks Checks-Effects-Interactions and can enable reentrancy. Additionally, the contract updates balanceOf[credId] -= totalBalance before ETH transfers, which is correct to prevent reentrancy abuse. Nonetheless, the inconsistent leftover ETH math and ordering of transfers expose risk of ETH loss or abuse.",
+        "attack_logic": "1) An attacker or user triggers distribute with a credId having small totalBalance and a certain share distribution causing integer division truncation.\n2) The calculated actualDistributeAmount sums userRewards, which are truncated down, making (royaltyfee + distributeAmount - actualDistributeAmount) non-zero.\n3) Transfer of this leftover amount to _msgSender() before depositBatch external call.\n4) If depositBatch reverts or behaves unexpectedly, or if leftover amount is non-zero but not correctly transferred/refunded, ETH can be lost in contract.\n5) Also, the leftover ETH transfer before depositBatch external call enables reentrancy if phiRewardsContract is malicious.\n6) Furthermore, if rounding causes leftover amount to be negative (underflow in subtraction), this leads to revert, blocking distribution.",
+        "verification_proof": "Observed that distributeAmount = totalBalance - royaltyfee; actualDistributeAmount is sum of userRewards which are each (distributeAmount * userShares)/totalNum truncated down. Because of rounding down per user, actualDistributeAmount <= distributeAmount. Leftover transfer = royaltyfee + distributeAmount - actualDistributeAmount. If actualDistributeAmount > distributeAmount (unlikely but no safeguards prevent it), subtraction underflows.\nChecks-Effects-Interactions pattern violated: external call to _msgSender().safeTransferETH(leftover) before depositBatch external call to phiRewardsContract.\nNo reentrancy guard is present.\nThe stored balanceOf is updated before external calls preventing reentrancy in this contract, but external contract may behave maliciously.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "distribute"
+        ],
+        "affected_lines": [
+          59,
+          67,
+          74,
+          79,
+          81
+        ],
+        "severity": "High",
+        "line_number": 67,
+        "confidence_score": 90,
+        "false_positive_risk": 10
       }
     },
     {
       "persona": "AccessControlExpert",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ArithmeticExpert",
-      "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
       }
     },
     {
       "persona": "DeFi Risk Analyst",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "DoSExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "EconomicExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "ErrorHandlingExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FlashLoanExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "FrontrunningExpert",
-      "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Owner Can Set Arbitrary Large Reward Amounts Causing Overpayment or Excessive ETH Drain",
+        "description": "The contract allows the owner to arbitrarily set reward amounts (artistReward, referralReward, verifierReward, curateReward) via public functions without any upper bounds or sanity checks. Because the handleRewardsAndGetValueSent() payable function requires msg.value to exactly match the sum computed using these rewards multiplied by quantity, an owner-controlled large reward setting can cause users to overpay unexpectedly or to drain excessive ETH during minting. This could lead to funds being locked if other contracts (like curatorRewardsDistributor) have insufficient ETH or cause user minting failure due to unreasonably high costs. No limits prevent the owner from setting these rewards to extremely high values, exposing users and the protocol to economic risk.",
+        "attack_logic": "Step 1: Owner calls updateXXXReward functions to set one or more rewards to an unreasonably high value.\nStep 2: Users calling handleRewardsAndGetValueSent must send msg.value matching the inflated mintReward calculation.\nStep 3: Users end up overpaying ETH or transactions revert due to insufficient sent value.\nStep 4: Potential ETH imbalance and locked rewards if curatorRewardsDistributor.deposit fails due to insufficient funds.\nStep 5: This degrades UX and can be manipulated by the owner to cause denial-of-service or economic disruption.",
+        "verification_proof": "By calling updateArtistReward(uint256 max), the artistReward can be set to an extremely large amount. Then, computeMintReward(quantity=1, mintFee=0) returns an excessively large value, which handleRewardsAndGetValueSent requires users to pay, otherwise revert occurs. No code prevents owner abuse or accidental misconfiguration.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "updateArtistReward",
+          "updateReferralReward",
+          "updateVerifierReward",
+          "updateCurateReward",
+          "handleRewardsAndGetValueSent"
+        ],
+        "affected_lines": [
+          37,
+          45,
+          53,
+          61,
+          70,
+          88
+        ],
+        "severity": "Medium",
+        "line_number": 37,
+        "confidence_score": 95,
+        "false_positive_risk": 5
       }
     },
     {
       "persona": "GasOptimizationExpert",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "InheritanceExpert",
-      "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": false,
+        "optimization_opportunity": true,
+        "title": "Gas Optimization Opportunity in depositRewards Function",
+        "description": "The depositRewards internal function performs multiple storage reads and writes inside conditional blocks and repeatedly accesses storage variables for balanceOf mapping multiple times. This results in redundant SLOAD and SSTORE operations. Also, adding multiple reward amounts to balanceOf for the same address multiple times can be optimized by accumulating them in a local variable and writing once. Similarly, arithmetic additions to artistTotalReward_ and referralTotalReward_ could be done using local variables before storage updates. Finally, the reward amount fields (artistReward, referralReward, verifierReward, curateReward) are declared as separate uint256 variables, which can be packed into a struct to optimize storage reads if accessed together frequently.",
+        "attack_logic": "N/A - No security vulnerability, only gas inefficiency",
+        "verification_proof": "In depositRewards (line 56 onwards), balanceOf[referral_], balanceOf[verifier_], and balanceOf[receiver_] are incremented separately multiple times, causing multiple SLOAD+SSTORE operations. If the addresses are the same or low overlap, combining increments into locals and writing once reduces gas. Also, the assignments 'artistTotalReward_ += referralTotalReward_' and 'referralTotalReward_ = 0;' cause mutations that can be rearranged to minimize storage ops or temporary storage usage.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "depositRewards"
+        ],
+        "affected_lines": [
+          58,
+          61,
+          67,
+          70,
+          75,
+          79,
+          84,
+          90
+        ],
+        "severity": "Informational",
+        "line_number": 56,
+        "confidence_score": 95,
+        "false_positive_risk": 5
       }
     },
     {
       "persona": "LogicExpert",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "LowLevelCallsExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "OracleExpert",
-      "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Logic Error in Reward Distribution: Curator Rewards Can Be Manipulated via ChainSync Flag",
+        "description": "In `depositRewards` (line 52), the logic for distributing curator rewards differs based on the `chainSync_` flag and whether the `curatorRewardsDistributor` is set. When `chainSync_` is true and the distributor is set, the curator reward is sent via an external payable call to the distributor contract (line 64). When false, the curator reward is added directly to the receiver's balance (line 67). This conditional flow allows a user calling `handleRewardsAndGetValueSent` (line 69) to manipulate the distribution by toggling `chainSync_`. They can either force the curator rewards to be locked in an external contract or assigned to the receiver, which may violate intended multi-chain reward logic or cause loss of funds if the distributor is not configured correctly. Moreover, there is no access control or verification over `chainSync_` and the external call to `curatorRewardsDistributor` is unprotected, potentially leading to forced ETH transfers to an unexpected contract. The contract owner may incorrectly set or fail to set `curatorRewardsDistributor`, causing reward misrouting.",
+        "attack_logic": "1) Attacker calls `handleRewardsAndGetValueSent` with `chainSync_` set to false to route the curator reward to their own balance via `balanceOf[receiver_]`. 2) Alternatively, they call with `chainSync_` set to true when `curatorRewardsDistributor` points to a malicious or incorrect contract, causing a forced ETH transfer and possibly locking rewards without proper accounting. 3) By toggling `chainSync_` and exploiting improper setup or absence of `curatorRewardsDistributor`, attacker can divert curator rewards or cause denial of rewards distribution.",
+        "verification_proof": "The branch in `depositRewards` explicitly conditionally deposits ETH via `curatorRewardsDistributor.deposit{value: curateTotalReward_}()` when `chainSync_` is true and distributor is set (line 64) else credits balanceOf (line 67). There are no checks on who can toggle `chainSync_`. The external call uses `value` and may revert funds or send to an untrusted contract. Balances may become inconsistent.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "depositRewards",
+          "handleRewardsAndGetValueSent"
+        ],
+        "affected_lines": [
+          52,
+          54,
+          57,
+          58,
+          64,
+          65
+        ],
+        "severity": "High",
+        "line_number": 64,
+        "confidence_score": 90,
+        "false_positive_risk": 10
       }
     },
     {
       "persona": "ReentrancyExpert",
       "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "SignatureExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "StorageProxyExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TimestampExpert",
-      "raw": {
-        "found_vulnerability": false
-      }
-    },
-    {
-      "persona": "TokenExpert",
-      "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
       }
     },
     {
       "persona": "Critic",
       "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": false,
+        "optimization_opportunity": false,
+        "title": "Unknown Finding",
+        "description": "",
+        "attack_logic": "",
+        "verification_proof": null,
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [],
+        "affected_lines": [],
+        "severity": "High",
+        "line_number": 0,
+        "confidence_score": 60,
+        "false_positive_risk": 30
       }
     },
     {
       "persona": "AuditGeneralist",
       "raw": {
-        "found_vulnerability": false
+        "found_vulnerability": true,
+        "optimization_opportunity": false,
+        "title": "Unprotected Internal Function depositRewards Can Lead to Incorrect or Unwanted Reward Deposits",
+        "description": "The internal function depositRewards (lines ~52) is not restricted by any access control modifier and called only by handleRewardsAndGetValueSent (line ~83). If additional internal or derived contracts call depositRewards directly, it could lead to unexpected reward distribution without proper checks. Additionally, computing and adding referral rewards to artistTotalReward within depositRewards modifies the inputs unexpectedly, which might confuse callers or lead to inconsistent state updates. There is no reentrancy protection in handleRewardsAndGetValueSent, which is payable, although external calls are limited to a trusted external contract (curatorRewardsDistributor) that accepts ETH. The call to curatorRewardsDistributor.deposit with value is an external call inside depositRewards without reentrancy guard, but as no state changes follow the call, risk is moderate.",
+        "attack_logic": "1. A call to an inherited or malicious contract could invoke depositRewards internally with crafted inputs, bypassing the msg.value check in handleRewardsAndGetValueSent.\n2. This could lead to unaccounted rewards credited to arbitrary addresses.\n3. The external call with ETH to curatorRewardsDistributor could be exploited if that contract is malicious or buggy, possibly reentering if future modifications add state changes after the call.\n4. The variable adjustments to artistTotalReward and referralTotalReward inside depositRewards could lead to inconsistent balances if the caller is unaware or mistakenly assumes original values, potentially causing accounting errors.",
+        "verification_proof": "depositRewards is internal without access control or reentrancy protection; handleRewardsAndGetValueSent is payable with a msg.value check. However, depositRewards lacks explicit guards and modifies input parameters internally. External call to curatorRewardsDistributor.deposit with ETH is done without a reentrancy guard. No state update occurs after this external call, so immediate reentrancy risk is low but should be explicitly safeguarded in case of future changes.",
+        "gas_savings_estimate": null,
+        "kill_chain": null,
+        "affected_functions": [
+          "depositRewards",
+          "handleRewardsAndGetValueSent"
+        ],
+        "affected_lines": [
+          52,
+          83
+        ],
+        "severity": "Medium",
+        "line_number": 52,
+        "confidence_score": 90,
+        "false_positive_risk": 10
       }
     }
   ],
   "deduped_findings": [
     {
-      "title": "DoS Vulnerability Due to Unbounded Iteration in Cred.sol",
-      "description": "None\n\nCode snippet:\n661:     /// @dev Updates the balance for a user\n662:     /// @param credId_ The ID of the cred\n663:     /// @param sender_ The address of the user\n664:     /// @param amount_ The amount to update\n665:     /// @param isBuy True if Buy, false if Sell\n666:     function _updateCuratorShareBalance(uint256 credId_, address sender_, uint256 amount_, bool isBuy) internal {\n667:         (, uint256 currentNum) = shareBalance[credId_].tryGet(sender_);\n668: \n669:         if (isBuy) {\n670:             if (currentNum == 0 && !_credIdExistsPerAddress[sender_][credId_]) {\n\n**Detected by:** DoSExpert Persona\n**Attack Logic:** None",
+      "title": "Critical Typo Causing Initialization State Variable Misuse",
+      "description": "None\n\nCode snippet:\n7: /// @title CreatorRoyaltiesControl\n8: /// @notice Contract for managing the royalties of an ERC1155 contract\n9: abstract contract CreatorRoyaltiesControl is ICreatorRoyaltiesControl {\n10:     mapping(uint256 _tokenId => RoyaltyConfiguration _configuration) public royalties;\n11:     uint256 private constant ROYALTY_BPS_TO_PERCENT = 10_000;\n12:     address private royaltyRecipient;\n13:     bool private initilaized;\n14: \n15:     error InvalidRoyaltyRecipient();\n16: \n\nAttack Logic: Not provided\nVerification Proof: Lines 12, 20, and 25 use 'initilaized' which is a typo and should be 'initialized'. This inconsistency breaks the initialization state invariant. Tests will show inability to block multiple initializeRoyalties calls if relying on the correct variable name or causing NotInitialized() errors unexpectedly.\nDetected by: LogicExpert Persona",
+      "severity": "Critical",
+      "file_paths": [
+        "src/abstract/CreatorRoyaltiesControl.sol"
+      ]
+    },
+    {
+      "title": "Logic Error: Batch Sell Buy Share Functions Bypass Price Checks and LastTradeTimestamp Checks",
+      "description": "None\n\nCode snippet:\n476:     /// @notice Gets the cred IDs and amounts for creds where the given address has a position\n477:     /// @param  curator_ The address to check.\n478:     /// @return credIds The IDs of the creds where the address has a position.\n479:     /// @return amounts The corresponding amounts for each cred.\n480:     function getPositionsForCurator(\n481:         address curator_,\n482:         uint256 start_,\n483:         uint256 stop_\n484:     )\n485:         external\n\nAttack Logic: Not provided\nVerification Proof: Review of _handleTrade shows lastTradeTimestamp checked before share sell at line ~449 (block.timestamp <= lastTradeTimestamp + SHARE_LOCK_PERIOD revert). Batch functions (batchSellShareCred at line ~481) call _validateAndCalculateBatch (line ~550) which checks share sufficiency and price limits but does NOT check lastTradeTimestamp. Then _executeBatchTrade (line ~590) updates shares and supply for sell without any lastTradeTimestamp check and does not update lastTradeTimestamp for sells (only does so for buys line 596). This is a violation of invariants. Thus, the batch sell bypasses temporal share lock. The batch buy similarly omits re-checks at execution, risking price invariant breaks. Batch sell transfers ETH payout after _executeBatchSell with no re-entrancy or state re-checks, but reentrancy is guarded, so safe from Reentrancy but not logical invariant violation. This bug is confirmed by static code analysis referencing concrete lines / functions.\nDetected by: LogicExpert Persona",
       "severity": "High",
       "file_paths": [
         "src/Cred.sol"
       ]
     },
     {
-      "title": "Art Creation Fee Transfer Vulnerability",
-      "description": "None\n\nCode snippet:\n152:             _msgSender().safeTransferETH(msg.value - artFee);\n153:         }\n154: \n155:         return createdTokenId;\n156:     }\n157: \n158:     /// @notice Claims a art token from the Phi Factory contract.\n159:     /// @param minter_ The address claiming the art token.\n160:     /// @param ref_ The referrer address.\n161:     /// @param verifier_ The verifier address.\n\n**Detected by:** LogicExpert Persona\n**Attack Logic:** None",
+      "title": "Missing Reentrancy Guard on _handleTrade Allowing Reentrancy on buyShareCred and sellShareCred",
+      "description": "None\n\nCode snippet:\n424:     /// @param credId_ The ID of the cred.\n425:     /// @param curator_ The address to check.\n426:     /// @return The number of shares the address has for the cred.\n427:     function getShareNumber(uint256 credId_, address curator_) external view returns (uint256) {\n428:         return shareBalance[credId_].get(curator_);\n429:     }\n430: \n431:     function getCuratorAddressLength(uint256 credId_) external view returns (uint256) {\n432:         return shareBalance[credId_].length();\n433:     }\n\nAttack Logic: Not provided\nVerification Proof: The presence of ETH transfers in _handleTrade without nonReentrant guard and the existence of transfer calls before final state changes (line 575, 581, 595) confirms classic reentrancy vector. The batch trade function uses nonReentrant, confirming that individual trade functions missing it is likely an oversight rather than intentional safe design.\nDetected by: AuditGeneralist Persona",
+      "severity": "High",
+      "file_paths": [
+        "src/Cred.sol"
+      ]
+    },
+    {
+      "title": "Bypass of Single-Claim Restrictions Enables Multiple NFT Mints Per Cred or Art",
+      "description": "None\n\nCode snippet:\n280:             bytes memory claimData = abi.encode(minter_, ref_, artId);\n281:             MintArgs memory mintArgs = MintArgs({ tokenId: tokenId, quantity: quantity_, imageURI: imageURI_ });\n282:             uint256 mintFee = getArtMintFee(artId, quantity_);\n283:             this.merkleClaim{ value: mintFee }(proof, claimData, mintArgs, leafPart_);\n284:         } else if (art.verificationType.eq(\"SIGNATURE\")) {\n285:             (\n286:                 ,\n287:                 address minter_,\n288:                 address ref_,\n289:                 address verifier_,\n\nAttack Logic: Not provided\nVerification Proof: Examination of _validateAndUpdateClaimState (line ~785) shows artMinted and credMinted flags are set but never cause a revert if already true. No other code paths check these flags to prevent multiple claims. Therefore, repeated calls with the same minter bypass single-claim semantics.\nDetected by: DeFi Risk Analyst Persona",
+      "severity": "High",
+      "file_paths": [
+        "src/PhiFactory.sol"
+      ]
+    },
+    {
+      "title": "Missing claimed status check in _validateAndUpdateClaimState allows multiple claims per address",
+      "description": "None\n\nCode snippet:\n380:         );\n381: \n382:         emit ArtClaimedData(artId_, \"MERKLE\", minter_, ref_, art.credCreator, art.artAddress, mintArgs_.quantity);\n383:     }\n384: \n385:     /*//////////////////////////////////////////////////////////////\n386:                                   SET\n387:     //////////////////////////////////////////////////////////////*/\n388:     /// @notice Sets the claim signer address.\n389:     /// @param phiSignerAddress_ The new claim signer address.\n\nAttack Logic: Not provided\nVerification Proof: Reviewing _validateAndUpdateClaimState shows no presence of 'require' or revert on artMinted[artId_][minter_] being true. Instead, it unconditionally sets artMinted[artId_][minter_] = true. This allows repeated calls with the same minter and artId. The numberMinted counter increases with each call, confirming that multiple mints are possible per address.\nDetected by: LogicExpert Persona",
+      "severity": "High",
+      "file_paths": [
+        "src/PhiFactory.sol"
+      ]
+    },
+    {
+      "title": "Reentrancy Guard Implementation is Inverted and Ineffective",
+      "description": "None\n\nCode snippet:\n69:             abi.encodePacked(\n70:                 \"{\",\n71:                 '\"name\":\"',\n72:                 \"Phi Cred NFT\",\n73:                 '\",',\n74:                 '\"description\":\"',\n75:                 _buildDescription(art),\n76:                 '\",',\n77:                 '\"image\":\"',\n78:                 \"https://gateway.irys.xyz/H2OgtiAtsJRB8svr4d-kV2BtAE4BTI_q0wtAn5aKjcU\",\n\nAttack Logic: Not provided\nVerification Proof: The nonReentrant modifier implementation is inverted relative to standard patterns. It stores locked=1 initially and requires locked==1 to enter. Then sets locked=2 during execution, resets to 1 after. This works only if the logic is never modified incorrectly. Best practice is to use a boolean-like guard (false/true) or OpenZeppelin ReentrancyGuard using uint256 _NOT_ENTERED=1 and _ENTERED=2 to avoid confusion and bugs.\nDetected by: AuditGeneralist Persona",
+      "severity": "High",
+      "file_paths": [
+        "src/PhiFactory.sol"
+      ]
+    },
+    {
+      "title": "Use of direct low-level msg.data decoding without validation exposes signatureClaim and merkleClaim to malformed calldata attacks",
+      "description": "None\n\nCode snippet:\n28:             address minter_,\n29:             uint256 tokenId_,\n30:             uint256 quantity_,\n31:             uint256 expiresIn_,\n32:             string memory imageURI_,\n33:             bytes32 data_\n34:         ) = abi.decode(\n35:             msg.data[4:], (bytes32, bytes32, address, address, address, uint256, uint256, uint256, string, bytes32)\n36:         );\n37:         uint256 artId = getFactoryArtId(tokenId_);\n\nAttack Logic: Not provided\nVerification Proof: Minimal poc involves calling signatureClaim or merkleClaim with deliberately truncated or mal-encoded calldata payloads less than expected length or corrupted dynamic string/array encoding, causing abi.decode to revert or behave unexpectedly. The low threshold of 260 bytes for merkleClaim decoding is insufficient to guarantee safe decoding for inputs containing dynamic string and bytes32[] arrays.\nDetected by: AuditGeneralist Persona",
+      "severity": "High",
+      "file_paths": [
+        "src/abstract/Claimable.sol"
+      ]
+    },
+    {
+      "title": "Missing Access Control on deposit and withdrawFor functions",
+      "description": "None\n\nCode snippet:\n37:     /// @param reason System reason for deposit (used for indexing)\n38:     /// @param comment Optional comment as reason for deposit\n39:     function deposit(address to, bytes4 reason, string calldata comment) external payable {\n40:         if (to == address(0)) revert InvalidAddressZero();\n41: \n42:         unchecked {\n43:             balanceOf[to] += msg.value;\n44:         }\n45: \n46:         emit Deposit(msg.sender, to, reason, msg.value, comment);\n\nAttack Logic: Not provided\nVerification Proof: Call deposit to assign balance to victim's address. From a different attacker address, call withdrawFor(victim, amount). The victim's balance decreases and funds are sent to victim's address, controlled by attacker off-chain via front-running or address controls.\nDetected by: AccessControlExpert Persona",
+      "severity": "High",
+      "file_paths": [
+        "src/abstract/RewardControl.sol"
+      ]
+    },
+    {
+      "title": "Improper Handling of msg.value and Protocol Fee Leading to Potential Denial of Service or Funds Locking",
+      "description": "None\n\nCode snippet:\n85:     modifier onlyPhiFactory() {\n86:         if (msg.sender != address(phiFactoryContract)) revert NotPhiFactory();\n87:         _;\n88:     }\n89: \n90:     /*//////////////////////////////////////////////////////////////\n91:                             EXTERNAL FUNCTIONS\n92:     //////////////////////////////////////////////////////////////*/\n93:     /// @notice Initializes the contract.\n94:     /// @param credId_ The cred ID.\n\nAttack Logic: Not provided\nVerification Proof: Because safeTransferETH uses low-level call, it returns success or not. Here, it is called without checking for success explicitly except via revert. The conditional refund at line 95 does _msgSender().safeTransferETH(msg.value - artFee); without try/catch or checks. If refund fails, revert happens. The function is payable but no reentrancy guard is applied in this function (although contract inherits ReentrancyGuardUpgradeable). This creates a potential DoS or griefing attack vector around refund calls.\nDetected by: AuditGeneralist Persona",
       "severity": "High",
       "file_paths": [
         "src/art/PhiNFT1155.sol"
       ]
     },
     {
-      "title": "Potential Division by Zero in _curve Function",
-      "description": "None\n\nCode snippet:\n85:     /// @return The calculated buy price after fees.\n86:     function getBuyPriceAfterFee(uint256 credId_, uint256 supply_, uint256 amount_) public view returns (uint256) {\n87:         uint256 price = getBuyPrice(supply_, amount_);\n88:         uint256 protocolFee = _getProtocolFee(price);\n89:         uint256 creatorFee = _getCreatorFee(credId_, supply_, price, true);\n90: \n91:         return price + protocolFee + creatorFee;\n92:     }\n93: \n94:     /// @notice Calculates the sell price for a given supply and amount.\n\n**Detected by:** LogicExpert Persona\n**Attack Logic:** None",
+      "title": "Bonding Curve Allows Division By Zero and Price Manipulation When Supply Reaches TOTAL_SUPPLY_FACTOR",
+      "description": "None\n\nCode snippet:\n61:         (uint16 buyShareRoyalty, uint16 sellShareRoyalty) = credContract.getCreatorRoyalty(credId_);\n62: \n63:         price = isSign_ ? getPrice(supply_, amount_) : getPrice(supply_ - amount_, amount_);\n64: \n65:         protocolFee = _getProtocolFee(price);\n66:         if (supply_ == 0) {\n67:             creatorFee = 0;\n68:             return (price, protocolFee, creatorFee);\n69:         }\n70:         uint16 royaltyRate = isSign_ ? buyShareRoyalty : sellShareRoyalty;\n\nAttack Logic: Not provided\nVerification Proof: Call getPrice or getBuyPrice with supply and amount such that `supply + amount` multiplied by 1 ether equals or exceeds 1000 ether (TOTAL_SUPPLY_FACTOR). The call will revert due to division by zero in _curve.\nSimilarly, call getSellPrice with amount greater than supply, leading to underflow in supply - amount, returning incorrect price calculations.\nDetected by: DeFi Risk Analyst Persona",
       "severity": "High",
       "file_paths": [
         "src/curve/BondingCurve.sol"
+      ]
+    },
+    {
+      "title": "Lack of Reentrancy Protection in distribute() Leading to Potential Reentrancy Attack",
+      "description": "None\n\nCode snippet:\n62:         emit RoyaltyUpdated(newRoyalty_);\n63:     }\n64: \n65:     /*//////////////////////////////////////////////////////////////\n66:                             UPDATE FUNCTIONS\n67:     //////////////////////////////////////////////////////////////*/\n68:     function deposit(uint256 credId, uint256 amount) external payable {\n69:         if (!credContract.isExist(credId)) revert InvalidCredId();\n70:         if (msg.value != amount) {\n71:             revert InvalidValue(msg.value, amount);\n\nAttack Logic: Not provided\nVerification Proof: The distribute() function reduces balanceOf[credId] only once per call but sends royalty transfer to _msgSender() before interacting with the phiRewardsContract external call. Without a reentrancy guard, the attacker can reenter on the safeTransferETH call and call distribute() again exploiting the balance before state update or during a stale state window. The lack of any reentrancy protection and the payable transfer in the middle of logic confirm the vulnerability.\nDetected by: LogicExpert Persona",
+      "severity": "High",
+      "file_paths": [
+        "src/reward/CuratorRewardsDistributor.sol"
+      ]
+    },
+    {
+      "title": "Distribute Function Incorrect Handling of Rounding and ETH Transfers Leading to Potential Loss and Misallocation",
+      "description": "None\n\nCode snippet:\n62:         emit RoyaltyUpdated(newRoyalty_);\n63:     }\n64: \n65:     /*//////////////////////////////////////////////////////////////\n66:                             UPDATE FUNCTIONS\n67:     //////////////////////////////////////////////////////////////*/\n68:     function deposit(uint256 credId, uint256 amount) external payable {\n69:         if (!credContract.isExist(credId)) revert InvalidCredId();\n70:         if (msg.value != amount) {\n71:             revert InvalidValue(msg.value, amount);\n\nAttack Logic: Not provided\nVerification Proof: Observed that distributeAmount = totalBalance - royaltyfee; actualDistributeAmount is sum of userRewards which are each (distributeAmount * userShares)/totalNum truncated down. Because of rounding down per user, actualDistributeAmount <= distributeAmount. Leftover transfer = royaltyfee + distributeAmount - actualDistributeAmount. If actualDistributeAmount > distributeAmount (unlikely but no safeguards prevent it), subtraction underflows.\nChecks-Effects-Interactions pattern violated: external call to _msgSender().safeTransferETH(leftover) before depositBatch external call to phiRewardsContract.\nNo reentrancy guard is present.\nThe stored balanceOf is updated before external calls preventing reentrancy in this contract, but external contract may behave maliciously.\nDetected by: AuditGeneralist Persona",
+      "severity": "High",
+      "file_paths": [
+        "src/reward/CuratorRewardsDistributor.sol"
+      ]
+    },
+    {
+      "title": "Logic Error in Reward Distribution: Curator Rewards Can Be Manipulated via ChainSync Flag",
+      "description": "None\n\nCode snippet:\n59:     /// @param newCurateReward_ New curate reward amount\n60:     function updateCurateReward(uint256 newCurateReward_) external onlyOwner {\n61:         curateReward = newCurateReward_;\n62:         emit CurateRewardUpdated(newCurateReward_);\n63:     }\n64: \n65:     /// @notice Update curator rewards distributor\n66:     /// @dev This method is only used credential contract is deployed on a same network,\n67:     /// if not, it should be set to address(0)\n68:     function updateCuratorRewardsDistributor(address curatorRewardsDistributor_) external onlyOwner {\n\nAttack Logic: Not provided\nVerification Proof: The branch in `depositRewards` explicitly conditionally deposits ETH via `curatorRewardsDistributor.deposit{value: curateTotalReward_}()` when `chainSync_` is true and distributor is set (line 64) else credits balanceOf (line 67). There are no checks on who can toggle `chainSync_`. The external call uses `value` and may revert funds or send to an untrusted contract. Balances may become inconsistent.\nDetected by: LogicExpert Persona",
+      "severity": "High",
+      "file_paths": [
+        "src/reward/PhiRewards.sol"
+      ]
+    },
+    {
+      "title": "Typographical Error in 'initialized' Variable Causes Possible Unintended Behavior",
+      "description": "None\n\nCode snippet:\n7: /// @title CreatorRoyaltiesControl\n8: /// @notice Contract for managing the royalties of an ERC1155 contract\n9: abstract contract CreatorRoyaltiesControl is ICreatorRoyaltiesControl {\n10:     mapping(uint256 _tokenId => RoyaltyConfiguration _configuration) public royalties;\n11:     uint256 private constant ROYALTY_BPS_TO_PERCENT = 10_000;\n12:     address private royaltyRecipient;\n13:     bool private initilaized;\n14: \n15:     error InvalidRoyaltyRecipient();\n16: \n\nAttack Logic: Not provided\nVerification Proof: The variable 'initilaized' is declared at line 12 and used in 'initializeRoyalties' (line 17) and 'getRoyalties' (line 26) to check initialization state. However, the naming is a typo and nonstandard. If any other contract or external caller uses the correct spelling 'initialized' (not present here), checks on initialization state will fail. This is an issue of maintainability and a potential vector for logic bugs in upgrade or inheritance scenarios.\nDetected by: AuditGeneralist Persona",
+      "severity": "Medium",
+      "file_paths": [
+        "src/abstract/CreatorRoyaltiesControl.sol"
+      ]
+    },
+    {
+      "title": "Reentrancy Risk via ETH Transfers in createArtFromFactory",
+      "description": "None\n\nCode snippet:\n100:         address protocolFeeDestination_\n101:     )\n102:         external\n103:         initializer\n104:     {\n105:         __Ownable_init(msg.sender);\n106: \n107:         __Pausable_init();\n108:         __ReentrancyGuard_init();\n109:         initializeRoyalties(protocolFeeDestination_);\n\nAttack Logic: Not provided\nVerification Proof: Since createArtFromFactory transfers ETH to an external address before incrementing tokenIdCounter and returning change, a reentrant fallback function in protocolFeeDestination could invoke createArtFromFactory again or other external sensitive functions if that address is malicious. The unchecked usage of safeTransferETH on a potentially untrusted contract creates this vector.\nDetected by: DeFi Risk Analyst Persona",
+      "severity": "Medium",
+      "file_paths": [
+        "src/art/PhiNFT1155.sol"
+      ]
+    },
+    {
+      "title": "Insufficient Check on Payment Amount in createArtFromFactory Function Leading to Over or Underpayment",
+      "description": "None\n\nCode snippet:\n105:         __Ownable_init(msg.sender);\n106: \n107:         __Pausable_init();\n108:         __ReentrancyGuard_init();\n109:         initializeRoyalties(protocolFeeDestination_);\n110: \n111:         tokenIdCounter = 1;\n112: \n113:         credChainId = credChainId_;\n114:         credId = credId_;\n\nAttack Logic: Not provided\nVerification Proof: Review of createArtFromFactory code shows no require or revert statement verifying msg.value >= artFee prior to transfer (line 110). The transfer call uses fixed artFee amount. If msg.value < artFee, transfer may revert due to insufficient balance on contract or result in partial transfer depending on SafeTransferLib. The refund logic (line 119) only handles excess ETH but does not prevent or handle underpayment, thus insufficient checks exist.\nDetected by: LogicExpert Persona",
+      "severity": "Medium",
+      "file_paths": [
+        "src/art/PhiNFT1155.sol"
+      ]
+    },
+    {
+      "title": "Incorrect Creator Fee Calculation When Supply is Zero",
+      "description": "None\n\nCode snippet:\n92:     }\n93: \n94:     /// @notice Calculates the sell price for a given supply and amount.\n95:     /// @param supply_ The current supply.\n96:     /// @param amount_ The amount to calculate the sell price for.\n97:     /// @return The calculated sell price.\n98:     function getSellPrice(uint256 supply_, uint256 amount_) public pure returns (uint256) {\n99:         return getPrice(supply_ - amount_, amount_);\n100:     }\n101: \n\nAttack Logic: Not provided\nVerification Proof: In _getCreatorFee, the 'if (supply_ == 0) { creatorFee = 0; }' line is within the function, but there is no immediate return, so creatorFee is not guaranteed to remain zero before subsequent lines override it. The logic should short-circuit when supply_ == 0. The public view functions that call this internal function assume creatorFee = 0 when supply == 0 (e.g., getPriceData explicitly returns (price, protocolFee, 0) if supply==0). This inconsistency can cause discrepancies.\nDetected by: LogicExpert Persona",
+      "severity": "Medium",
+      "file_paths": [
+        "src/curve/BondingCurve.sol"
+      ]
+    },
+    {
+      "title": "Unauthorized Withdrawal of Royalty Fee by Anyone Triggering Distribute",
+      "description": "None\n\nCode snippet:\n62:         emit RoyaltyUpdated(newRoyalty_);\n63:     }\n64: \n65:     /*//////////////////////////////////////////////////////////////\n66:                             UPDATE FUNCTIONS\n67:     //////////////////////////////////////////////////////////////*/\n68:     function deposit(uint256 credId, uint256 amount) external payable {\n69:         if (!credContract.isExist(credId)) revert InvalidCredId();\n70:         if (msg.value != amount) {\n71:             revert InvalidValue(msg.value, amount);\n\nAttack Logic: Not provided\nVerification Proof: Since there is no 'onlyOwner' or similar modifier on 'distribute', and the caller receiving the royaltyfee is _msgSender(), anyone can call distribute() and receive royalty fees from any credId with balance.\nDetected by: DeFi Risk Analyst Persona",
+      "severity": "Medium",
+      "file_paths": [
+        "src/reward/CuratorRewardsDistributor.sol"
+      ]
+    },
+    {
+      "title": "Owner Can Set Arbitrary Large Reward Amounts Causing Overpayment or Excessive ETH Drain",
+      "description": "None\n\nCode snippet:\n32:     constructor(address ownerAddress_) payable Ownable(ownerAddress_) { }\n33: \n34:     /*//////////////////////////////////////////////////////////////\n35:                             SETTER FUNCTIONS\n36:     //////////////////////////////////////////////////////////////*/\n37:     /// @notice Update artist reward amount\n38:     /// @param newArtistReward_ New artist reward amount\n39:     function updateArtistReward(uint256 newArtistReward_) external onlyOwner {\n40:         artistReward = newArtistReward_;\n41:         emit ArtistRewardUpdated(newArtistReward_);\n\nAttack Logic: Not provided\nVerification Proof: By calling updateArtistReward(uint256 max), the artistReward can be set to an extremely large amount. Then, computeMintReward(quantity=1, mintFee=0) returns an excessively large value, which handleRewardsAndGetValueSent requires users to pay, otherwise revert occurs. No code prevents owner abuse or accidental misconfiguration.\nDetected by: DeFi Risk Analyst Persona",
+      "severity": "Medium",
+      "file_paths": [
+        "src/reward/PhiRewards.sol"
+      ]
+    },
+    {
+      "title": "Unprotected Internal Function depositRewards Can Lead to Incorrect or Unwanted Reward Deposits",
+      "description": "None\n\nCode snippet:\n47:         referralReward = newReferralReward_;\n48:         emit ReferralRewardUpdated(newReferralReward_);\n49:     }\n50: \n51:     /// @notice Update verify reward amount\n52:     /// @param newVerifyReward_ New verify reward amount\n53:     function updateVerifierReward(uint256 newVerifyReward_) external onlyOwner {\n54:         verifierReward = newVerifyReward_;\n55:         emit VerifierRewardUpdated(newVerifyReward_);\n56:     }\n\nAttack Logic: Not provided\nVerification Proof: depositRewards is internal without access control or reentrancy protection; handleRewardsAndGetValueSent is payable with a msg.value check. However, depositRewards lacks explicit guards and modifies input parameters internally. External call to curatorRewardsDistributor.deposit with ETH is done without a reentrancy guard. No state update occurs after this external call, so immediate reentrancy risk is low but should be explicitly safeguarded in case of future changes.\nDetected by: AuditGeneralist Persona",
+      "severity": "Medium",
+      "file_paths": [
+        "src/reward/PhiRewards.sol"
       ]
     }
   ]

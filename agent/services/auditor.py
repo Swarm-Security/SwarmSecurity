@@ -76,11 +76,11 @@ class Audit(BaseModel):
 class SolidityAuditor:
     """Service for auditing Solidity contracts using RedSpectre Swarm."""
     
-    def __init__(self, api_key: str, model: str = "gpt-4-turbo"):
+    def __init__(self, api_key: str, model: str = "gpt-4.1-mini"):
         """
         Initialize the auditor with OpenAI credentials.
         """
-        self.model = "gpt-4-turbo" if (not model or model.lower().startswith("gpt-4o-mini")) else model
+        self.model = "gpt-4.1-mini" if (not model or model.lower().startswith("gpt-4o-mini")) else model
         self.client = OpenAI(api_key=api_key)
         
         # Initialize RedSpectre Components
@@ -169,25 +169,24 @@ class SolidityAuditor:
             # 1. The Swarm Analysis Loop
             raw_persona_outputs = [] if benchmark_mode else None
 
-            enriched_docs = "\n\n".join([docs or "", DEFAULT_DOCS]).strip()
+            # Trim prompt context: if user docs provided, use them; otherwise fallback to built-in refs.
+            enriched_docs = (docs or DEFAULT_DOCS).strip()
             slither_summary_lines = []
 
             slither_summary = ""
 
             persona_weights = {
-                # Downweight noisy personas but do not fully disable them
-                "CentralizationExpert": 0.6,
-                "ValidationExpert": 0.6,
-                "InterfaceExpert": 0.6,
-                "EconomicExpert": 0.6,
-                "OracleExpert": 0.7,
-                "TimestampExpert": 0.7,
-                "TokenExpert": 0.7,
-                "FlashLoanExpert": 0.7,
-                "FrontrunningExpert": 0.7,
-                "Thief": 0.8,
-                "AccessControlExpert": 0.8,
-                # Core personas keep full weight by default
+                "CentralizationExpert": 0.8,
+                "ValidationExpert": 0.8,
+                "InterfaceExpert": 0.8,
+                "EconomicExpert": 0.8,
+                "OracleExpert": 0.9,
+                "TimestampExpert": 0.9,
+                "TokenExpert": 0.9,
+                "FlashLoanExpert": 0.9,
+                "FrontrunningExpert": 0.9,
+                "Thief": 0.9,
+                "AccessControlExpert": 0.9,
             }
 
             for file_obj in files_to_audit:
@@ -209,7 +208,7 @@ class SolidityAuditor:
                 logger.debug(f"Raw swarm results for {file_obj.path}: {swarm_results}")
                 
                 for res in swarm_results:
-                    # Quality gates: require description, severity, line, attack logic (for >= Medium), and reasonable confidence
+                    # Moderate gates: require description, line, severity >= Medium, attack logic for Medium+, and basic confidence
                     persona = res.get("detected_by", "unknown")
                     weight = persona_weights.get(persona, 1.0)
                     if not res.get("description") or res.get("line_number", 0) == 0:
@@ -232,8 +231,7 @@ class SolidityAuditor:
                     except Exception:
                         fp_risk = 100
                     adjusted_conf = int(conf * weight)
-                    # Stricter gates: higher confidence after weighting; clamp fp_risk
-                    if adjusted_conf < 50 or fp_risk > 70:
+                    if adjusted_conf < 30 or fp_risk > 90:
                         continue
 
                     # Map RedSpectre result to AgentArena Finding Model
@@ -265,6 +263,9 @@ class SolidityAuditor:
             limited = select_top_findings(verified_findings, limit=20)
             if len(verified_findings) > 20:
                 logger.info(f"Limiting findings to top {len(limited)} by consensus/severity (from {len(verified_findings)})")
+            # Ensure we never submit zero if any findings exist
+            if not limited and verified_findings:
+                limited = verified_findings[:20]
 
             logger.info(f"✅ Audit completed with {len(limited)} returned findings (initial: {len(verified_findings)})")
             if benchmark_mode:

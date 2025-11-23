@@ -33,7 +33,7 @@ class Swarm:
     def __init__(
         self,
         api_key: str = None,
-        model: str = "gpt-4-turbo",
+        model: str = "gpt-4.1-mini",
         cache_enabled: bool = False,
         persona_models: Optional[Dict[str, str]] = None,
         routing_enabled: bool = True,
@@ -41,12 +41,12 @@ class Swarm:
         # The Council of Agents
         # Add new personas here as you build them
         # Normalize model choice to avoid weaker defaults like gpt-4o-mini.
-        normalized_model = model or "gpt-4-turbo"
+        normalized_model = model or "gpt-4.1-mini"
         if normalized_model.lower() in {"gpt-4o-mini", "gpt-4o-mini-2024-07-18"}:
-            normalized_model = "gpt-4-turbo"
+            normalized_model = "gpt-4.1-mini"
 
         self.persona_models = {
-            k: ("gpt-4-turbo" if v and v.lower().startswith("gpt-4o-mini") else v)
+            k: ("gpt-4.1-mini" if v and v.lower().startswith("gpt-4o-mini") else v)
             for k, v in (persona_models or {}).items()
         }
 
