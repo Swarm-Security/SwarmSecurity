@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Public Initialization/Manipulation for Privilege Escalation",
+    "description": "None\n\nCode snippet:\n3: \n4: import \"forge-std/Test.sol\";\n5: {% if interface_imports %}\n6: {% for import_path in interface_imports %}\n7: import \"{{ import_path }}\";\n8: {% endfor %}\n9: {% else %}\n10: import \"../interface.sol\";\n11: {% endif %}\n12: {% if contract_imports %}\n13: {% for import_path in contract_imports %}\n14: import \"{{ import_path }}\";\n15: {% endfor %}\n16: {% endif %}\n17: \n18: // @KeyInfo - Total Lost : 1.7M USD\n19: // Attacker : https://etherscan.io/address/0x33022e998c52e05d4Ff207cEa8573243e431e784\n20: // Attack Contract : https://etherscan.io/address/0xd3A8b78497Ae791a6355df405FfA7aE4B765cE37\n21: // Vulnerable Contract : https://etherscan.io/address/0xA51d3Bf92B49d4B7F9B0CD2F1c26E220A3c5De8e\n22: // Attack Tx: {{ attack_tx_hash }}\n23: // Withdrawal Tx: {{ withdrawal_tx_hash }}\n24: \n25: // @Info\n26: // Vulnerable Contract Code : {{ vulnerable_contract_code }}\n27: \n\n**Detected by:** Thief Persona\n**Attack Logic:** None",
+    "severity": "Critical",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Insolvency Check Bypass via Price Manipulation or Oracle Exploit",
+    "description": "None\n\nCode snippet:\n34:     {% if use_deployed_contract %}\n35:     {{ target_contract_name }} public target = {{ target_contract_name }}({{ vulnerable_contract_address }});\n36:     {% else %}\n37:     {{ target_contract_name }} public target;\n38:     {% endif %}\n39:     address public attacker = {{ attacker_address }};\n40:     address public attackContract = {{ attack_contract_address }};\n41: {% if additional_contracts %}\n42:     {{ additional_contracts }}\n43: {% endif %}\n44: \n45:     function setUp() public {\n46:         {% if not use_deployed_contract %}\n47:         target = new {{ target_contract_name }}();\n48:         {% endif %}\n49:         vm.deal(address(this), 100 ether);\n50:         vm.deal(attacker, 100 ether);\n51: {% if additional_setup %}\n52:         {{ additional_setup }}\n53: {% endif %}\n54:     }\n55: \n56:     function testExploit_{{ vulnerability_id }}() public {\n57:         uint256 beforeCollateral = target.totalCollateral();\n58:         uint256 beforeDebt = target.totalDebt();\n\n**Detected by:** DeFi Risk Analyst Persona\n**Attack Logic:** None",
+    "severity": "Critical",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Public setUp() Function",
+    "description": "None\n\nCode snippet:\n7: import \"{{ import_path }}\";\n8: {% endfor %}\n9: {% else %}\n10: import \"../interface.sol\";\n11: {% endif %}\n12: {% if contract_imports %}\n13: {% for import_path in contract_imports %}\n14: import \"{{ import_path }}\";\n15: {% endfor %}\n16: {% endif %}\n17: \n18: // @KeyInfo - Total Lost : 1.7M USD\n19: // Attacker : https://etherscan.io/address/0x33022e998c52e05d4Ff207cEa8573243e431e784\n20: // Attack Contract : https://etherscan.io/address/0xd3A8b78497Ae791a6355df405FfA7aE4B765cE37\n21: // Vulnerable Contract : https://etherscan.io/address/0xA51d3Bf92B49d4B7F9B0CD2F1c26E220A3c5De8e\n22: // Attack Tx: {{ attack_tx_hash }}\n23: // Withdrawal Tx: {{ withdrawal_tx_hash }}\n24: \n25: // @Info\n26: // Vulnerable Contract Code : {{ vulnerable_contract_code }}\n27: \n28: // @Analysis\n29: // Post-mortem : https://x.com/Phalcon_xyz/status/1974532815208485102\n30: // Twitter Guy : https://x.com/Phalcon_xyz/status/1974532815208485102\n31: // Hacking God : N/A\n\n**Detected by:** AccessControlExpert Persona\n**Attack Logic:** None",
+    "severity": "High",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Potential insolvency bypass via health factor manipulation",
+    "description": "None\n\nCode snippet:\n8: {% endfor %}\n9: {% else %}\n10: import \"../interface.sol\";\n11: {% endif %}\n12: {% if contract_imports %}\n13: {% for import_path in contract_imports %}\n14: import \"{{ import_path }}\";\n15: {% endfor %}\n16: {% endif %}\n17: \n18: // @KeyInfo - Total Lost : 1.7M USD\n19: // Attacker : https://etherscan.io/address/0x33022e998c52e05d4Ff207cEa8573243e431e784\n20: // Attack Contract : https://etherscan.io/address/0xd3A8b78497Ae791a6355df405FfA7aE4B765cE37\n21: // Vulnerable Contract : https://etherscan.io/address/0xA51d3Bf92B49d4B7F9B0CD2F1c26E220A3c5De8e\n22: // Attack Tx: {{ attack_tx_hash }}\n23: // Withdrawal Tx: {{ withdrawal_tx_hash }}\n24: \n25: // @Info\n26: // Vulnerable Contract Code : {{ vulnerable_contract_code }}\n27: \n28: // @Analysis\n29: // Post-mortem : https://x.com/Phalcon_xyz/status/1974532815208485102\n30: // Twitter Guy : https://x.com/Phalcon_xyz/status/1974532815208485102\n31: // Hacking God : N/A\n32: \n\n**Detected by:** CentralizationExpert Persona\n**Attack Logic:** None",
+    "severity": "High",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Potential Gas Limit DoS via Loop and External Calls",
+    "description": "None\n\nCode snippet:\n29: // Post-mortem : https://x.com/Phalcon_xyz/status/1974532815208485102\n30: // Twitter Guy : https://x.com/Phalcon_xyz/status/1974532815208485102\n31: // Hacking God : N/A\n32: \n33: contract MIMSpell3_InsolvencyBypass_2025_10_Exploit_{{ vulnerability_id }} is Test {\n34:     {% if use_deployed_contract %}\n35:     {{ target_contract_name }} public target = {{ target_contract_name }}({{ vulnerable_contract_address }});\n36:     {% else %}\n37:     {{ target_contract_name }} public target;\n38:     {% endif %}\n39:     address public attacker = {{ attacker_address }};\n40:     address public attackContract = {{ attack_contract_address }};\n41: {% if additional_contracts %}\n42:     {{ additional_contracts }}\n43: {% endif %}\n44: \n45:     function setUp() public {\n46:         {% if not use_deployed_contract %}\n47:         target = new {{ target_contract_name }}();\n48:         {% endif %}\n49:         vm.deal(address(this), 100 ether);\n50:         vm.deal(attacker, 100 ether);\n51: {% if additional_setup %}\n52:         {{ additional_setup }}\n53: {% endif %}\n\n**Detected by:** DoSExpert Persona\n**Attack Logic:** None",
+    "severity": "High",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Insolvency Check Bypass via External Manipulation",
+    "description": "None\n\nCode snippet:\n30: // Twitter Guy : https://x.com/Phalcon_xyz/status/1974532815208485102\n31: // Hacking God : N/A\n32: \n33: contract MIMSpell3_InsolvencyBypass_2025_10_Exploit_{{ vulnerability_id }} is Test {\n34:     {% if use_deployed_contract %}\n35:     {{ target_contract_name }} public target = {{ target_contract_name }}({{ vulnerable_contract_address }});\n36:     {% else %}\n37:     {{ target_contract_name }} public target;\n38:     {% endif %}\n39:     address public attacker = {{ attacker_address }};\n40:     address public attackContract = {{ attack_contract_address }};\n41: {% if additional_contracts %}\n42:     {{ additional_contracts }}\n43: {% endif %}\n44: \n45:     function setUp() public {\n46:         {% if not use_deployed_contract %}\n47:         target = new {{ target_contract_name }}();\n48:         {% endif %}\n49:         vm.deal(address(this), 100 ether);\n50:         vm.deal(attacker, 100 ether);\n51: {% if additional_setup %}\n52:         {{ additional_setup }}\n53: {% endif %}\n54:     }\n\n**Detected by:** EconomicExpert Persona\n**Attack Logic:** None",
+    "severity": "High",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Potential Price Manipulation or Insolvency Bypass via External Manipulation",
+    "description": "None\n\nCode snippet:\n8: {% endfor %}\n9: {% else %}\n10: import \"../interface.sol\";\n11: {% endif %}\n12: {% if contract_imports %}\n13: {% for import_path in contract_imports %}\n14: import \"{{ import_path }}\";\n15: {% endfor %}\n16: {% endif %}\n17: \n18: // @KeyInfo - Total Lost : 1.7M USD\n19: // Attacker : https://etherscan.io/address/0x33022e998c52e05d4Ff207cEa8573243e431e784\n20: // Attack Contract : https://etherscan.io/address/0xd3A8b78497Ae791a6355df405FfA7aE4B765cE37\n21: // Vulnerable Contract : https://etherscan.io/address/0xA51d3Bf92B49d4B7F9B0CD2F1c26E220A3c5De8e\n22: // Attack Tx: {{ attack_tx_hash }}\n23: // Withdrawal Tx: {{ withdrawal_tx_hash }}\n24: \n25: // @Info\n26: // Vulnerable Contract Code : {{ vulnerable_contract_code }}\n27: \n28: // @Analysis\n29: // Post-mortem : https://x.com/Phalcon_xyz/status/1974532815208485102\n30: // Twitter Guy : https://x.com/Phalcon_xyz/status/1974532815208485102\n31: // Hacking God : N/A\n32: \n\n**Detected by:** FlashLoanExpert Persona\n**Attack Logic:** None",
+    "severity": "High",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Insolvency Exploit via Manipulated Health Factor",
+    "description": "None\n\nCode snippet:\n43: {% endif %}\n44: \n45:     function setUp() public {\n46:         {% if not use_deployed_contract %}\n47:         target = new {{ target_contract_name }}();\n48:         {% endif %}\n49:         vm.deal(address(this), 100 ether);\n50:         vm.deal(attacker, 100 ether);\n51: {% if additional_setup %}\n52:         {{ additional_setup }}\n53: {% endif %}\n54:     }\n55: \n56:     function testExploit_{{ vulnerability_id }}() public {\n57:         uint256 beforeCollateral = target.totalCollateral();\n58:         uint256 beforeDebt = target.totalDebt();\n59:         uint256 attackerBeforeBalance = attacker.balance;\n60: \n61:         console.log(\"[-] Before: collateral=%s debt=%s attacker bal=%s\", \n62:             beforeCollateral, beforeDebt, attackerBeforeBalance);\n63: \n64:         // Step 1: Bypass insolvency check by manipulating health factor\n65:         {{ step_1_code }}\n66: \n67:         // Step 2: Loop bad debt to drain funds\n\n**Detected by:** FrontrunningExpert Persona\n**Attack Logic:** None",
+    "severity": "High",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Potential Reentrancy or State Manipulation in testExploit",
+    "description": "None\n\nCode snippet:\n32: \n33: contract MIMSpell3_InsolvencyBypass_2025_10_Exploit_{{ vulnerability_id }} is Test {\n34:     {% if use_deployed_contract %}\n35:     {{ target_contract_name }} public target = {{ target_contract_name }}({{ vulnerable_contract_address }});\n36:     {% else %}\n37:     {{ target_contract_name }} public target;\n38:     {% endif %}\n39:     address public attacker = {{ attacker_address }};\n40:     address public attackContract = {{ attack_contract_address }};\n41: {% if additional_contracts %}\n42:     {{ additional_contracts }}\n43: {% endif %}\n44: \n45:     function setUp() public {\n46:         {% if not use_deployed_contract %}\n47:         target = new {{ target_contract_name }}();\n48:         {% endif %}\n49:         vm.deal(address(this), 100 ether);\n50:         vm.deal(attacker, 100 ether);\n51: {% if additional_setup %}\n52:         {{ additional_setup }}\n53: {% endif %}\n54:     }\n55: \n56:     function testExploit_{{ vulnerability_id }}() public {\n\n**Detected by:** LogicExpert Persona\n**Attack Logic:** None",
+    "severity": "High",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Oracle Manipulation / Collateral/Health Factor Bypass",
+    "description": "None\n\nCode snippet:\n43: {% endif %}\n44: \n45:     function setUp() public {\n46:         {% if not use_deployed_contract %}\n47:         target = new {{ target_contract_name }}();\n48:         {% endif %}\n49:         vm.deal(address(this), 100 ether);\n50:         vm.deal(attacker, 100 ether);\n51: {% if additional_setup %}\n52:         {{ additional_setup }}\n53: {% endif %}\n54:     }\n55: \n56:     function testExploit_{{ vulnerability_id }}() public {\n57:         uint256 beforeCollateral = target.totalCollateral();\n58:         uint256 beforeDebt = target.totalDebt();\n59:         uint256 attackerBeforeBalance = attacker.balance;\n60: \n61:         console.log(\"[-] Before: collateral=%s debt=%s attacker bal=%s\", \n62:             beforeCollateral, beforeDebt, attackerBeforeBalance);\n63: \n64:         // Step 1: Bypass insolvency check by manipulating health factor\n65:         {{ step_1_code }}\n66: \n67:         // Step 2: Loop bad debt to drain funds\n\n**Detected by:** OracleExpert Persona\n**Attack Logic:** None",
+    "severity": "High",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Missing Reentrancy Guard in External Calls",
+    "description": "None\n\nCode snippet:\n20: // Attack Contract : https://etherscan.io/address/0xd3A8b78497Ae791a6355df405FfA7aE4B765cE37\n21: // Vulnerable Contract : https://etherscan.io/address/0xA51d3Bf92B49d4B7F9B0CD2F1c26E220A3c5De8e\n22: // Attack Tx: {{ attack_tx_hash }}\n23: // Withdrawal Tx: {{ withdrawal_tx_hash }}\n24: \n25: // @Info\n26: // Vulnerable Contract Code : {{ vulnerable_contract_code }}\n27: \n28: // @Analysis\n29: // Post-mortem : https://x.com/Phalcon_xyz/status/1974532815208485102\n30: // Twitter Guy : https://x.com/Phalcon_xyz/status/1974532815208485102\n31: // Hacking God : N/A\n32: \n33: contract MIMSpell3_InsolvencyBypass_2025_10_Exploit_{{ vulnerability_id }} is Test {\n34:     {% if use_deployed_contract %}\n35:     {{ target_contract_name }} public target = {{ target_contract_name }}({{ vulnerable_contract_address }});\n36:     {% else %}\n37:     {{ target_contract_name }} public target;\n38:     {% endif %}\n39:     address public attacker = {{ attacker_address }};\n40:     address public attackContract = {{ attack_contract_address }};\n41: {% if additional_contracts %}\n42:     {{ additional_contracts }}\n43: {% endif %}\n44: \n\n**Detected by:** ReentrancyExpert Persona\n**Attack Logic:** None",
+    "severity": "High",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Potential Insolvency Check Bypass in Vulnerable Contract",
+    "description": "None\n\nCode snippet:\n24: \n25: // @Info\n26: // Vulnerable Contract Code : {{ vulnerable_contract_code }}\n27: \n28: // @Analysis\n29: // Post-mortem : https://x.com/Phalcon_xyz/status/1974532815208485102\n30: // Twitter Guy : https://x.com/Phalcon_xyz/status/1974532815208485102\n31: // Hacking God : N/A\n32: \n33: contract MIMSpell3_InsolvencyBypass_2025_10_Exploit_{{ vulnerability_id }} is Test {\n34:     {% if use_deployed_contract %}\n35:     {{ target_contract_name }} public target = {{ target_contract_name }}({{ vulnerable_contract_address }});\n36:     {% else %}\n37:     {{ target_contract_name }} public target;\n38:     {% endif %}\n39:     address public attacker = {{ attacker_address }};\n40:     address public attackContract = {{ attack_contract_address }};\n41: {% if additional_contracts %}\n42:     {{ additional_contracts }}\n43: {% endif %}\n44: \n45:     function setUp() public {\n46:         {% if not use_deployed_contract %}\n47:         target = new {{ target_contract_name }}();\n48:         {% endif %}\n\n**Detected by:** TokenExpert Persona\n**Attack Logic:** None",
+    "severity": "High",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Potential Variable Shadowing in setUp Function",
+    "description": "None\n\nCode snippet:\n18: // @KeyInfo - Total Lost : 1.7M USD\n19: // Attacker : https://etherscan.io/address/0x33022e998c52e05d4Ff207cEa8573243e431e784\n20: // Attack Contract : https://etherscan.io/address/0xd3A8b78497Ae791a6355df405FfA7aE4B765cE37\n21: // Vulnerable Contract : https://etherscan.io/address/0xA51d3Bf92B49d4B7F9B0CD2F1c26E220A3c5De8e\n22: // Attack Tx: {{ attack_tx_hash }}\n23: // Withdrawal Tx: {{ withdrawal_tx_hash }}\n24: \n25: // @Info\n26: // Vulnerable Contract Code : {{ vulnerable_contract_code }}\n27: \n28: // @Analysis\n29: // Post-mortem : https://x.com/Phalcon_xyz/status/1974532815208485102\n30: // Twitter Guy : https://x.com/Phalcon_xyz/status/1974532815208485102\n31: // Hacking God : N/A\n32: \n33: contract MIMSpell3_InsolvencyBypass_2025_10_Exploit_{{ vulnerability_id }} is Test {\n34:     {% if use_deployed_contract %}\n35:     {{ target_contract_name }} public target = {{ target_contract_name }}({{ vulnerable_contract_address }});\n36:     {% else %}\n37:     {{ target_contract_name }} public target;\n38:     {% endif %}\n39:     address public attacker = {{ attacker_address }};\n40:     address public attackContract = {{ attack_contract_address }};\n41: {% if additional_contracts %}\n42:     {{ additional_contracts }}\n\n**Detected by:** InheritanceExpert Persona\n**Attack Logic:** None",
+    "severity": "Medium",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Potential Time-Dependent State Manipulation via External Calls",
+    "description": "None\n\nCode snippet:\n28: // @Analysis\n29: // Post-mortem : https://x.com/Phalcon_xyz/status/1974532815208485102\n30: // Twitter Guy : https://x.com/Phalcon_xyz/status/1974532815208485102\n31: // Hacking God : N/A\n32: \n33: contract MIMSpell3_InsolvencyBypass_2025_10_Exploit_{{ vulnerability_id }} is Test {\n34:     {% if use_deployed_contract %}\n35:     {{ target_contract_name }} public target = {{ target_contract_name }}({{ vulnerable_contract_address }});\n36:     {% else %}\n37:     {{ target_contract_name }} public target;\n38:     {% endif %}\n39:     address public attacker = {{ attacker_address }};\n40:     address public attackContract = {{ attack_contract_address }};\n41: {% if additional_contracts %}\n42:     {{ additional_contracts }}\n43: {% endif %}\n44: \n45:     function setUp() public {\n46:         {% if not use_deployed_contract %}\n47:         target = new {{ target_contract_name }}();\n48:         {% endif %}\n49:         vm.deal(address(this), 100 ether);\n50:         vm.deal(attacker, 100 ether);\n51: {% if additional_setup %}\n52:         {{ additional_setup }}\n\n**Detected by:** TimestampExpert Persona\n**Attack Logic:** None",
+    "severity": "Medium",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  },
+  {
+    "title": "Missing Error Handling for External Call in Loop",
+    "description": "None\n\nCode snippet:\n45:     function setUp() public {\n46:         {% if not use_deployed_contract %}\n47:         target = new {{ target_contract_name }}();\n48:         {% endif %}\n49:         vm.deal(address(this), 100 ether);\n50:         vm.deal(attacker, 100 ether);\n51: {% if additional_setup %}\n52:         {{ additional_setup }}\n53: {% endif %}\n54:     }\n55: \n56:     function testExploit_{{ vulnerability_id }}() public {\n57:         uint256 beforeCollateral = target.totalCollateral();\n58:         uint256 beforeDebt = target.totalDebt();\n59:         uint256 attackerBeforeBalance = attacker.balance;\n60: \n61:         console.log(\"[-] Before: collateral=%s debt=%s attacker bal=%s\", \n62:             beforeCollateral, beforeDebt, attackerBeforeBalance);\n63: \n64:         // Step 1: Bypass insolvency check by manipulating health factor\n65:         {{ step_1_code }}\n66: \n67:         // Step 2: Loop bad debt to drain funds\n68:         {{ step_2_code }}\n69: \n\n**Detected by:** ErrorHandlingExpert Persona\n**Attack Logic:** None",
+    "severity": "Low",
+    "file_paths": [
+      "MIMSpell3_InsolvencyBypass.t.sol"
+    ]
+  }
+]
